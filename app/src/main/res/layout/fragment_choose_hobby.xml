@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.screening.ChooseHobbyFragment">
+
+    <TextView
+        android:id="@+id/fragmentchoosehobby_subtitle_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/fragmentchoosehobby_subtitle"
+        android:textFontWeight="600"
+        android:textSize="30sp" />
+
+    <include layout="@layout/card_rv" android:id="@+id/hobby_rv"/>
+
+    <Button
+        android:text="@string/next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/fragmentchoosehobby_button" />
+
+</LinearLayout>

@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Habitech</string>
+    <string name="habitech">Habitech</string>
+    <string name="hello">Hello, %1$s!</string>
+    <string name="personaldatentry_subtitle">May we know more about you?</string>
+    <string name="personaldataentry_job">Job</string>
+    <string name="personaldataentry_bio_hint">Tell the others something about you!</string>
+    <string name="personaldatentry_bio_title">Bio</string>
+    <string name="personaldataentry_button">Next</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragmentchoosehobby_subtitle">Do you have any activity you would like to try?</string>
+    <string name="fragmentchoosegenre_subtitle">Do you have any genres preference?</string>
+    <string name="next">Next</string>
+</resources>
