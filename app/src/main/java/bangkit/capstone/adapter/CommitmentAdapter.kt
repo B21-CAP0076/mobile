@@ -11,6 +11,7 @@ import bangkit.capstone.R
 import bangkit.capstone.data.Commitment
 import bangkit.capstone.data.ReadingCommitment
 import bangkit.capstone.databinding.CommitmentRvItemBinding
+import bangkit.capstone.util.Formatter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
@@ -61,7 +62,7 @@ class CommitmentAdapter : RecyclerView.Adapter<CommitmentAdapter.CommitmentViewH
             )
             .into(holder.book2Img)
         holder.description.text = Html.fromHtml(setDescription(commitment.user1, commitment.user2))
-        holder.deadline.text = "Deadline on ${getDateTime(commitment.deadline)}"
+        holder.deadline.text = "Deadline on ${Formatter.getDateTime(commitment.deadline)}"
     }
 
     override fun getItemCount(): Int = data.size
@@ -72,21 +73,11 @@ class CommitmentAdapter : RecyclerView.Adapter<CommitmentAdapter.CommitmentViewH
     }
 
     private fun setDescription(user1: ReadingCommitment, user2: ReadingCommitment): String {
-        return "<font color=#000000>Continue reading ${user1.title}</font><font color=#465DCB> with ${user2.user} reading ${user2.title}" + "</font>"
+        return "<font color=#000000>Continue reading ${user1.title}</font><font color=#465DCB> with ${user2.user.name} reading ${user2.title}" + "</font>"
     }
 
     fun setBehaviour(b: CommitmentAdapterBehaviour) {
         behaviour = b
-    }
-
-    private fun getDateTime(s: Int): String? {
-        try {
-            val sdf = SimpleDateFormat("dd MMMM")
-            val netDate = Date(s.toLong() * 1000)
-            return sdf.format(netDate)
-        } catch (e: Exception) {
-            return e.toString()
-        }
     }
 
     interface CommitmentAdapterBehaviour {

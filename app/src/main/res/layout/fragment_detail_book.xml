@@ -7,8 +7,8 @@
     tools:context=".ui.home.ui.detail_book.DetailBookFragment">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <ImageView
@@ -42,6 +42,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/purple_200" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fragmentdetailbook_button"
+                android:text="+ Start Commitment" />
 
 
         </LinearLayout>

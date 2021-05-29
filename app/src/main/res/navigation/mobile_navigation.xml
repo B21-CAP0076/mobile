@@ -35,5 +35,13 @@
             android:name="book_id"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_detailBookFragment_to_matchMakingFragment"
+            app:destination="@id/matchMakingFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/matchMakingFragment"
+        android:name="bangkit.capstone.ui.home.ui.match_making.MatchMakingFragment"
+        android:label="match_making_fragment"
+        tools:layout="@layout/match_making_fragment" />
 </navigation>

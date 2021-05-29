@@ -44,14 +44,18 @@ object ProvideDummy {
         )
     )
 
-    private val user1 = ReadingCommitment(
-        user = "Jinki",
+    val user1 = User(name = "Lee Jinki", bio = "Aku tahu")
+
+    private val readingCommitment1 = ReadingCommitment(
+        user = user1,
         title = "Agaya",
         bookImg = "https://media.wired.com/photos/5955c355ad90646d424bb62b/master/w_2560%2Cc_limit/books.jpg"
     )
 
-    private val user2 = ReadingCommitment(
-        user = "Taemin",
+    val user2 = User(name = "Kim Kibum", bio = "Bumbumpaw")
+
+    private val readingCommitment2 = ReadingCommitment(
+        user = user2,
         title = "Heater",
         bookImg = "https://media.wired.com/photos/5955c355ad90646d424bb62b/master/w_2560%2Cc_limit/books.jpg"
     )
@@ -61,15 +65,20 @@ object ProvideDummy {
             id = 1,
             deadline = 1622103006,
             hobby = "Reading Books",
-            user1 = user1,
-            user2 = user2
+            user1 = readingCommitment1,
+            user2 = readingCommitment2
         ),
         Commitment(
             id = 2,
             deadline = 1622103006,
             hobby = "Reading Books",
-            user1 = user1,
-            user2 = user2
+            user1 = readingCommitment1,
+            user2 = readingCommitment2
         )
+    )
+
+    val matchList = listOf<Match>(
+        Match(readingCommitment = readingCommitment1, deadline = 1622103006),
+        Match(readingCommitment = readingCommitment2, deadline = 1622103006)
     )
 }
