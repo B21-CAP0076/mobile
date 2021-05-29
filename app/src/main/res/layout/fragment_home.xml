@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ui.home.ui.home.HomeFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textFontWeight="700"
+        android:textSize="20sp"
+        android:textColor="@color/purple_700"
+        android:text="Jinki, check out your on going activites"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fragmenthome_commitmentrv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:textFontWeight="700"
+        android:textSize="16sp"
+        android:textColor="@color/purple_200"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reading_books"
+        android:id="@+id/fragmenthome_hobby" />
+
+    <TextView
+        android:textFontWeight="700"
+        android:textSize="20sp"
+        android:textColor="@color/purple_700"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Looking for another book to read?"
+        android:id="@+id/fragmenthome_hobby_title" />
+
+    <TextView
+        android:textFontWeight="700"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose a book and we’ll find your reading partner."
+        android:id="@+id/fragmenthome_hobby_subtitle" />
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:id="@+id/fragmenthome_bookrv"
+        android:layout_height="wrap_content" />
+</LinearLayout>

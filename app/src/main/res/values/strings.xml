@@ -12,4 +12,10 @@
     <string name="fragmentchoosehobby_subtitle">Do you have any activity you would like to try?</string>
     <string name="fragmentchoosegenre_subtitle">Do you have any genres preference?</string>
     <string name="next">Next</string>
+    <string name="fragmentchoosebook_subtitle">Any book that you have read before?</string>
+    <string name="title_activity_home">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="reading_books">READING BOOKS</string>
 </resources>

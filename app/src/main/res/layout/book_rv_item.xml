@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/book_rv_item_card"
+    android:clipToPadding="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -17,25 +18,36 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/book_title"
+                android:textFontWeight="600"
+                android:textSize="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <RatingBar
+                style="?android:attr/ratingBarStyleSmall"
+                android:progressTint="@color/purple_700"
+                android:progressBackgroundTint="@color/purple_700"
+                android:transformPivotX="0dp"
+                android:transformPivotY="0dp"
                 android:id="@+id/book_rating"
                 android:layout_width="wrap_content"
+                android:padding="0dp"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/book_genre"
+                android:textColor="@color/purple_200"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/book_overview"
+                android:maxLines="5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>

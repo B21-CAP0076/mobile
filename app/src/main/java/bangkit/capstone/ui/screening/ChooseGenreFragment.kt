@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.GridLayoutManager
+import bangkit.capstone.R
 import bangkit.capstone.adapter.CardAdapter
 import bangkit.capstone.data.Genre
 import bangkit.capstone.databinding.FragmentChooseGenreBinding
@@ -48,6 +50,13 @@ class ChooseGenreFragment : Fragment() {
             setData(ProvideDummy.genreList)
         }
         binding.genreRv.cardRv.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.fragmentchoosegenreButton.setOnClickListener {
+            parentFragmentManager.commit {
+                replace(R.id.container, ChooseBookFragment())
+                setReorderingAllowed(true)
+                addToBackStack(null)
+            }
+        }
     }
 
     override fun onDestroyView() {

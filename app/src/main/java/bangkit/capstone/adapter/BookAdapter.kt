@@ -44,9 +44,12 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
             )
             .into(holder.image)
         holder.title.text = book.title
-        holder.card.setOnCheckedChangeListener { card, isChecked ->
+        holder.card.setOnClickListener {
             behaviour.setOnClickListener(data[position])
         }
+        holder.genre.text = book.genre
+        holder.overview.text = book.overview
+        holder.rating.rating = book.rating
     }
 
     override fun getItemCount(): Int {
@@ -56,6 +59,10 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
     fun setData(newData: List<Book>) {
         data = newData
         notifyDataSetChanged()
+    }
+
+    fun setBehaviour(b: BookAdapterBehaviour) {
+        behaviour = b
     }
 
     interface BookAdapterBehaviour {
