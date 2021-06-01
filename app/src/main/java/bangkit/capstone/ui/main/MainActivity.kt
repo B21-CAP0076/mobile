@@ -1,5 +1,6 @@
 package bangkit.capstone.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.ActivityResult
@@ -7,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts.StartActivityFo
 import androidx.appcompat.app.AppCompatActivity
 import bangkit.capstone.R
 import bangkit.capstone.databinding.ActivityMainBinding
+import bangkit.capstone.ui.screening.PersonalDataEntryActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -52,16 +54,6 @@ class MainActivity : AppCompatActivity() {
                 if (result.resultCode == RESULT_OK) {
                     val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
                     handleSignInResult(task)
-
-//                    try {
-//
-//                        Log.d(TAG, "Token : ${result.data?.extras}")
-//                    } catch (e: ApiException) {
-//                        Toast.makeText(this, "$e", Toast.LENGTH_LONG).show()
-//                        Log.d(TAG, e.toString())
-//                        // The ApiException status code indicates the detailed failure reason.
-//                    }
-
                 }
             }
         }
@@ -90,6 +82,10 @@ class MainActivity : AppCompatActivity() {
 
             // TODO(developer): send ID Token to server and validate
 //            updateUI(account)
+            val intent = Intent(this@MainActivity, PersonalDataEntryActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            startActivity(intent)
         } catch (e: ApiException) {
             Log.w(TAG, "handleSignInResult:error", e)
 //            updateUI(null)
