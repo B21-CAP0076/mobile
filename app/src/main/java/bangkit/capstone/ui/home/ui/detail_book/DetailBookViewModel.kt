@@ -10,7 +10,7 @@ class DetailBookViewModel : ViewModel() {
     private val _book = MutableLiveData<Book>()
     val book: LiveData<Book> = _book
 
-    fun getDetailBook(id: Int) {
+    fun getDetailBook(id: String) {
         _book.postValue(ProvideDummy.bookList.first { it -> it.id == id })
     }
 }

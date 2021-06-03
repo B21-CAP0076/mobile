@@ -2,8 +2,10 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="380dp"
-    android:layout_height="wrap_content">
+    app:strokeColor="@color/black"
+    app:strokeWidth="1dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:padding="16dp"
@@ -43,14 +45,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/matchrvitem_deadline" />
 
-        <Button
-            android:id="@+id/matchrvitem_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <TextView
+            android:id="@+id/matchrvitem_swipe"
+            android:layout_width="93dp"
+            android:layout_height="140dp"
             android:layout_marginTop="16dp"
-            android:text="Start Commitment with This User"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/swipe"
             app:layout_constraintTop_toBottomOf="@id/matchrvitem_bookimage" />
 
 

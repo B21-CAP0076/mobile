@@ -12,6 +12,7 @@ import bangkit.capstone.adapter.CardAdapter
 import bangkit.capstone.data.Genre
 import bangkit.capstone.databinding.FragmentChooseGenreBinding
 import bangkit.capstone.dummy.ProvideDummy
+import bangkit.capstone.util.Constants
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
@@ -35,13 +36,13 @@ class ChooseGenreFragment : Fragment() {
             setAdapterBehaviour(object : CardAdapter.AdapterBehaviour<Genre> {
                 override fun onItemBind(data: Genre, holder: CardAdapter<Genre>.CardViewHolder) {
                     Glide.with(holder.itemView.context)
-                        .load(data.image)
+                        .load(Constants.defaultImage)
                         .apply(
                             RequestOptions().override(200, 200)
                                 .transform(CenterCrop())
                         )
                         .into(holder.image)
-                    holder.title.text = data.title
+                    holder.title.text = data.name
                     holder.card.setOnCheckedChangeListener { card, isChecked ->
 
                     }

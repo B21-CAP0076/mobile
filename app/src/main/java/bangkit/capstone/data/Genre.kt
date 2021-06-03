@@ -1,3 +1,11 @@
 package bangkit.capstone.data
 
-data class Genre(var id: Int, var title: String, var image: String)
+import com.google.gson.annotations.SerializedName
+
+data class Genre(
+    @field:SerializedName("name")
+    val name: String? = null,
+
+    @field:SerializedName("id")
+    val id: String? = null
+)

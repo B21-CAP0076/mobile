@@ -15,6 +15,9 @@ import bangkit.capstone.adapter.MatchAdapter
 import bangkit.capstone.adapter.MatchAdapter.MatchAdapterBehaviour
 import bangkit.capstone.data.Match
 import bangkit.capstone.databinding.MatchMakingFragmentBinding
+import com.yuyakaido.android.cardstackview.CardStackLayoutManager
+import com.yuyakaido.android.cardstackview.CardStackListener
+import com.yuyakaido.android.cardstackview.Direction
 
 class MatchMakingFragment : Fragment() {
 
@@ -33,8 +36,35 @@ class MatchMakingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.matchmakingfragmentRv.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.matchmakingfragmentRv.layoutManager = CardStackLayoutManager(requireContext(), object : CardStackListener {
+            override fun onCardDragging(direction: Direction?, ratio: Float) {
+
+            }
+
+            override fun onCardSwiped(direction: Direction?) {
+                if (direction == Direction.Left) {
+                    //todotodo
+                } else if (direction == Direction.Right) {
+                    // todotodo
+                }
+            }
+
+            override fun onCardRewound() {
+
+            }
+
+            override fun onCardCanceled() {
+
+            }
+
+            override fun onCardAppeared(view: View?, position: Int) {
+
+            }
+
+            override fun onCardDisappeared(view: View?, position: Int) {
+
+            }
+        })
         adapter = MatchAdapter().apply {
             setBehaviour(object : MatchAdapterBehaviour {
                 override fun onClickListener(match: Match) {

@@ -16,6 +16,7 @@ import bangkit.capstone.adapter.BookAdapter
 import bangkit.capstone.adapter.CommitmentAdapter
 import bangkit.capstone.data.Book
 import bangkit.capstone.data.Commitment
+import bangkit.capstone.data.ReadingCommitment
 import bangkit.capstone.databinding.FragmentHomeBinding
 import bangkit.capstone.dummy.ProvideDummy
 import bangkit.capstone.ui.home.ui.detail_book.DetailBookFragment
@@ -47,8 +48,8 @@ class HomeFragment : Fragment() {
         binding.fragmenthomeCommitmentrv.adapter = CommitmentAdapter().apply {
             setData(ProvideDummy.commitmentList)
             setBehaviour(object : CommitmentAdapter.CommitmentAdapterBehaviour {
-                override fun onCommitmentClicked(commitment: Commitment) {
-                    // todo todo
+                override fun onCommitmentClicked(commitment: ReadingCommitment) {
+                    findNavController().navigate(R.id.action_navigation_home_to_commitmentRoomFragment)
                 }
             })
         }
@@ -58,7 +59,7 @@ class HomeFragment : Fragment() {
             setData(ProvideDummy.bookList)
             setBehaviour(object : BookAdapter.BookAdapterBehaviour {
                 override fun setOnClickListener(book: Book) {
-                    val action = HomeFragmentDirections.actionNavigationHomeToDetailBookFragment(book.id)
+                    val action = HomeFragmentDirections.actionNavigationHomeToDetailBookFragment(book.id!!)
                     findNavController().navigate(action)
                 }
 

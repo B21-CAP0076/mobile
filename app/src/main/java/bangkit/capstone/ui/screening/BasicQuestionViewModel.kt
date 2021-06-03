@@ -1,37 +1,56 @@
 package bangkit.capstone.ui.screening
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import bangkit.capstone.data.BasicQuestion
-import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
 
-@ExperimentalCoroutinesApi
-@FlowPreview
-@InternalCoroutinesApi
 class BasicQuestionViewModel : ViewModel() {
 
     companion object {
         private const val TAG = "BasicQuestionViewModel"
     }
 
-    val jobChannel = BroadcastChannel<String>(Channel.CONFLATED)
-    val bioChannel = BroadcastChannel<String>(Channel.CONFLATED)
-    val userResponse = combine(jobChannel.asFlow(), bioChannel.asFlow()) {
-        job, bio -> BasicQuestion(job= job,  bio = bio)
+    private val _job = MutableLiveData<String>("")
+    val job: LiveData<String> = _job
+    private val _age = MutableLiveData<Int>()
+    val age: LiveData<Int> = _age
+    private val _education = MutableLiveData<String>()
+    val education: LiveData<String> = _education
+
+    fun setJob(text: String) {
+        viewModelScope.launch {
+            _job.value = text
+        }
     }
 
+    fun setAge(number: Int) {
+        viewModelScope.launch {
+            _age.value = number
+        }
+    }
+
+    fun setEducation(edu: String) {
+        viewModelScope.launch {
+            _education.value = edu
+        }
+    }
 
     fun submit() {
         viewModelScope.launch {
-            userResponse.collectLatest {
-                Log.d(TAG, it.toString())
-            }
+            Log.d(
+                TAG,
+                "Submit ${
+                    BasicQuestion(
+                        job = _job.value!!,
+                        education = _education.value!!,
+                        age = _age.value!!
+                    )
+                }"
+            )
         }
     }
 }

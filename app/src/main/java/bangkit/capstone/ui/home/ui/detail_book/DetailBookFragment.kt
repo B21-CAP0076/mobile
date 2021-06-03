@@ -42,16 +42,15 @@ class DetailBookFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getDetailBook(args.bookId)
         viewModel.book.observe(viewLifecycleOwner, Observer {
-            binding.fragmentdetailbookGenre.text = it.genre
+            binding.fragmentdetailbookGenre.text = it.genres?.map { it -> it?.name }?.toList()?.joinToString(",")
             Glide.with(requireContext())
-                .load(it.image)
+                .load(it.img)
                 .apply(
                     RequestOptions().override(93, 140)
                         .transform(CenterCrop())
                 )
                 .into(binding.fragmentdetailbookImg)
-            binding.fragmentdetailbookOverview.text = it.overview
-            binding.fragmentdetailbookRb.rating = it.rating
+            binding.fragmentdetailbookOverview.text = it.authors?.map { it -> it?.name }?.toList()?.joinToString(",")
             binding.fragmentdetailbookTitle.text = it.title
             val dateSetListener =
                 DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->

@@ -8,8 +8,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import bangkit.capstone.R
+import bangkit.capstone.data.Book
 import bangkit.capstone.data.Commitment
 import bangkit.capstone.data.ReadingCommitment
+import bangkit.capstone.data.User
 import bangkit.capstone.databinding.CommitmentRvItemBinding
 import bangkit.capstone.util.Formatter
 import com.bumptech.glide.Glide
@@ -21,7 +23,7 @@ import java.util.*
 
 class CommitmentAdapter : RecyclerView.Adapter<CommitmentAdapter.CommitmentViewHolder>() {
 
-    private var data: List<Commitment> = mutableListOf()
+    private var data: List<ReadingCommitment> = mutableListOf()
     private lateinit var behaviour: CommitmentAdapterBehaviour
 
     inner class CommitmentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -29,7 +31,6 @@ class CommitmentAdapter : RecyclerView.Adapter<CommitmentAdapter.CommitmentViewH
         val hobby = itemView.findViewById<TextView>(R.id.commitmentrvitem_book1_hobby)
         val title = itemView.findViewById<TextView>(R.id.commitmentrvitem_book1_title)
         val book1Img = itemView.findViewById<ImageView>(R.id.commitmentrvitem_book1_img)
-        val book2Img = itemView.findViewById<ImageView>(R.id.commitmentrvitem_book2_img)
         val description = itemView.findViewById<TextView>(R.id.commitmentrvitem_description)
         val deadline = itemView.findViewById<TextView>(R.id.commitmentrvitem_book1_deadline)
     }
@@ -45,35 +46,28 @@ class CommitmentAdapter : RecyclerView.Adapter<CommitmentAdapter.CommitmentViewH
         holder.card.setOnClickListener {
             behaviour.onCommitmentClicked(commitment)
         }
-        holder.hobby.text = commitment.hobby.toUpperCase(Locale.ROOT)
-        holder.title.text = commitment.user1.title
+        holder.hobby.text = "READING BOOKS"
+        holder.title.text = commitment.book?.title
         Glide.with(holder.itemView.context)
-            .load(commitment.user1.bookImg)
+            .load(commitment.book?.img)
             .apply(
                 RequestOptions().override(43, 70)
                     .transform(CenterCrop())
             )
             .into(holder.book1Img)
-        Glide.with(holder.itemView.context)
-            .load(commitment.user2.bookImg)
-            .apply(
-                RequestOptions().override(43, 70)
-                    .transform(CenterCrop())
-            )
-            .into(holder.book2Img)
-        holder.description.text = Html.fromHtml(setDescription(commitment.user1, commitment.user2))
-        holder.deadline.text = "Deadline on ${Formatter.getDateTime(commitment.deadline)}"
+        holder.description.text = Html.fromHtml(setDescription(commitment.book, commitment.owner, commitment.partner))
+        holder.deadline.text = "Deadline on ${Formatter.getDateTime(commitment.creationDate)}"
     }
 
     override fun getItemCount(): Int = data.size
 
-    fun setData(newData: List<Commitment>) {
+    fun setData(newData: List<ReadingCommitment>) {
         data = newData
         notifyDataSetChanged()
     }
 
-    private fun setDescription(user1: ReadingCommitment, user2: ReadingCommitment): String {
-        return "<font color=#000000>Continue reading ${user1.title}</font><font color=#465DCB> with ${user2.user.name} reading ${user2.title}" + "</font>"
+    private fun setDescription(book: Book?, user1: User?, user2: User?): String {
+        return "<font color=#000000>Continue reading ${book?.title}</font><font color=#465DCB> with ${user2?.username}" + "</font>"
     }
 
     fun setBehaviour(b: CommitmentAdapterBehaviour) {
@@ -81,6 +75,6 @@ class CommitmentAdapter : RecyclerView.Adapter<CommitmentAdapter.CommitmentViewH
     }
 
     interface CommitmentAdapterBehaviour {
-        fun onCommitmentClicked(commitment: Commitment)
+        fun onCommitmentClicked(commitment: ReadingCommitment)
     }
 }

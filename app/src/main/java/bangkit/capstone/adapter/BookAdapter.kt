@@ -37,7 +37,7 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         var book = data[position]
         Glide.with(holder.itemView.context)
-            .load(book.image)
+            .load(book.img)
             .apply(
                 RequestOptions().override(93, 140)
                     .transform(CenterCrop())
@@ -47,9 +47,8 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
         holder.card.setOnClickListener {
             behaviour.setOnClickListener(data[position])
         }
-        holder.genre.text = book.genre
-        holder.overview.text = book.overview
-        holder.rating.rating = book.rating
+        holder.genre.text = book.genres?.map { it -> it?.name }?.toList()?.joinToString(",")
+        holder.overview.text = book.authors?.map { it -> it?.name }?.toList()?.joinToString(",")
     }
 
     override fun getItemCount(): Int {

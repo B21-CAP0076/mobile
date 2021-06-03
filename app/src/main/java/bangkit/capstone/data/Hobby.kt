@@ -1,3 +1,11 @@
 package bangkit.capstone.data
 
-data class Hobby(var id: Int, var title: String, var image: String)
+import com.google.gson.annotations.SerializedName
+
+data class Hobby(
+    @field:SerializedName("name")
+    val name: String? = null,
+
+    @field:SerializedName("id")
+    val id: String? = null
+)

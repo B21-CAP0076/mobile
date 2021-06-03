@@ -28,7 +28,6 @@ class MatchAdapter : RecyclerView.Adapter<MatchAdapter.MatchViewHolder>() {
         val username = itemView.findViewById<TextView>(R.id.matchrvitem_name)
         val bookTitle = itemView.findViewById<TextView>(R.id.matchrvitem_booktitle)
         val bookImage = itemView.findViewById<ImageView>(R.id.matchrvitem_bookimage)
-        val button = itemView.findViewById<Button>(R.id.matchrvitem_button)
         val deadline = itemView.findViewById<TextView>(R.id.matchrvitem_deadline)
     }
 
@@ -40,18 +39,15 @@ class MatchAdapter : RecyclerView.Adapter<MatchAdapter.MatchViewHolder>() {
     override fun onBindViewHolder(holder: MatchViewHolder, position: Int) {
         var match = data[position]
         Glide.with(holder.itemView.context)
-            .load(match.readingCommitment.bookImg)
+            .load(match.readingCommitment.book?.img)
             .apply(
                 RequestOptions().override(93, 140)
                     .transform(CenterCrop())
             )
             .into(holder.bookImage)
-        holder.username.text = match.readingCommitment.user.name
-        holder.button.setOnClickListener {
-            behaviour.onClickListener(data[position])
-        }
-        holder.bookTitle.text = match.readingCommitment.title
-        holder.deadline.text = "Deadline on ${Formatter.getDateTime(match.deadline)}"
+        holder.username.text = match.readingCommitment.owner?.username
+        holder.bookTitle.text = match.readingCommitment.book?.title
+        holder.deadline.text = "Deadline on ${match.deadline}"
     }
 
     override fun getItemCount(): Int {

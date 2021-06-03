@@ -63,15 +63,6 @@ class MainActivity : AppCompatActivity() {
             val signInIntent = mGoogleSignInClient.signInIntent
             loginResultHandler.launch(signInIntent)
         }
-//            val request: GetSignInIntentRequest = GetSignInIntentRequest.builder()
-//                .setServerClientId(getString(R.string.server_client_id))
-//                .build()
-//
-//            Identity.getSignInClient(this)
-//                .getSignInIntent(request)
-//                .addOnSuccessListener {
-//                    loginResultHandler(it)
-//                }
     }
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
