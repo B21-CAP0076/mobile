@@ -25,10 +25,10 @@ class MatchAdapter : RecyclerView.Adapter<MatchAdapter.MatchViewHolder>() {
     }
 
     inner class MatchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val username = itemView.findViewById<TextView>(R.id.matchrvitem_name)
-        val bookTitle = itemView.findViewById<TextView>(R.id.matchrvitem_booktitle)
-        val bookImage = itemView.findViewById<ImageView>(R.id.matchrvitem_bookimage)
-        val deadline = itemView.findViewById<TextView>(R.id.matchrvitem_deadline)
+        val username = itemView.findViewById<TextView>(R.id.matchitemrv_name)
+        val bookTitle = itemView.findViewById<TextView>(R.id.matchitemrv_booktitle)
+        val bookImage = itemView.findViewById<ImageView>(R.id.matchrvitem_img)
+        val deadline = itemView.findViewById<TextView>(R.id.matchitemrv_deadline)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchViewHolder {
@@ -38,13 +38,13 @@ class MatchAdapter : RecyclerView.Adapter<MatchAdapter.MatchViewHolder>() {
 
     override fun onBindViewHolder(holder: MatchViewHolder, position: Int) {
         var match = data[position]
-        Glide.with(holder.itemView.context)
-            .load(match.readingCommitment.book?.img)
-            .apply(
-                RequestOptions().override(93, 140)
-                    .transform(CenterCrop())
-            )
-            .into(holder.bookImage)
+//        Glide.with(holder.itemView.context)
+//            .load(match.readingCommitment.book?.img)
+//            .apply(
+//                RequestOptions().override(93, 140)
+//                    .transform(CenterCrop())
+//            )
+//            .into(holder.bookImage)
         holder.username.text = match.readingCommitment.owner?.username
         holder.bookTitle.text = match.readingCommitment.book?.title
         holder.deadline.text = "Deadline on ${match.deadline}"

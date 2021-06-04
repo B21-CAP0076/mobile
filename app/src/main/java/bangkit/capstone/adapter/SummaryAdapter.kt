@@ -1,5 +1,6 @@
 package bangkit.capstone.adapter
 
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +24,6 @@ class SummaryAdapter : RecyclerView.Adapter<SummaryAdapter.SummaryViewHolder>() 
     inner class SummaryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val img : ImageView = itemView.findViewById(R.id.summaryrvitem_bookimg)
         val creator : TextView = itemView.findViewById(R.id.summaryrvitem_creator)
-        val bookTitle : TextView = itemView.findViewById(R.id.summaryrvitem_booktitle)
         val summary : TextView = itemView.findViewById(R.id.summaryrvitem_summary)
         val dateCreated: TextView = itemView.findViewById(R.id.summaryrvitem_datecreated)
     }
@@ -38,14 +38,13 @@ class SummaryAdapter : RecyclerView.Adapter<SummaryAdapter.SummaryViewHolder>() 
         Glide.with(holder.itemView.context)
             .load(summary.readingCommitment?.book?.img)
             .apply(
-                RequestOptions().override(93, 140)
+                RequestOptions().override(140, 210)
                     .transform(CenterCrop())
             )
             .into(holder.img)
-        holder.creator.text = summary.readingCommitment?.owner?.username
-        holder.bookTitle.text = summary.readingCommitment?.book?.title
+        holder.creator.text = Html.fromHtml("<font color=#465DCB>${summary.readingCommitment?.owner?.username}</font> shared summary on <font color=#465DCB>${summary.readingCommitment?.book?.title}</font>")
         holder.summary.text = summary.summary
-        holder.dateCreated.text = summary.creationDate
+        holder.dateCreated.text = "On ${Formatter.getDateTime(summary.creationDate)}"
     }
 
     override fun getItemCount(): Int {

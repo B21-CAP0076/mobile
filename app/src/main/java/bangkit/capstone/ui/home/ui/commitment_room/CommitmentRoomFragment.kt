@@ -32,6 +32,7 @@ class CommitmentRoomFragment : Fragment() {
         binding.commitmentroomfragmentSummaryrv.adapter = adapter
         binding.commitmentroomfragmentSummaryrv.layoutManager = LinearLayoutManager(requireContext())
         viewModel.bookSummary.observe(viewLifecycleOwner, Observer {
+            activity?.actionBar?.show()
             activity?.actionBar?.title = it.bookSummary.first().readingCommitment?.partner?.username
             adapter.setData(it.bookSummary)
         })

@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import bangkit.capstone.R
 import bangkit.capstone.adapter.BookAdapter
 import bangkit.capstone.adapter.CommitmentAdapter
 import bangkit.capstone.data.Book
@@ -50,7 +51,7 @@ class CommitmentListFragment : Fragment() {
             setData(ProvideDummy.commitmentList)
             setBehaviour(object : CommitmentAdapter.CommitmentAdapterBehaviour {
                 override fun onCommitmentClicked(commitment: ReadingCommitment) {
-                    // todo todo
+                    findNavController().navigate(R.id.action_navigation_notifications_to_commitmentRoomFragment)
                 }
             })
         }

@@ -51,7 +51,7 @@ class CommitmentAdapter : RecyclerView.Adapter<CommitmentAdapter.CommitmentViewH
         Glide.with(holder.itemView.context)
             .load(commitment.book?.img)
             .apply(
-                RequestOptions().override(43, 70)
+                RequestOptions().override(90, 143)
                     .transform(CenterCrop())
             )
             .into(holder.book1Img)

@@ -2,56 +2,49 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/book_rv_item_card"
     android:clipToPadding="true"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/book_image"
-            android:layout_width="93dp"
-            android:layout_height="140dp" />
+            android:layout_width="186dp"
+            android:paddingBottom="8dp"
+            android:layout_height="250dp" />
 
-        <LinearLayout
+        <TextView
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:id="@+id/book_genre"
+            android:textColor="@color/purple_200"
+            android:textFontWeight="800"
+            android:textSize="16dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="8dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/book_title"
-                android:textFontWeight="600"
-                android:textSize="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+        <TextView
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:id="@+id/book_title"
+            android:textFontWeight="600"
+            android:textSize="16dp"
+            android:textColor="@color/purple_700"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-            <RatingBar
-                style="?android:attr/ratingBarStyleSmall"
-                android:progressTint="@color/purple_700"
-                android:progressBackgroundTint="@color/purple_700"
-                android:transformPivotX="0dp"
-                android:transformPivotY="0dp"
-                android:id="@+id/book_rating"
-                android:layout_width="wrap_content"
-                android:padding="0dp"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/book_genre"
-                android:textColor="@color/purple_200"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/book_overview"
-                android:maxLines="5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
+        <TextView
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:id="@+id/book_author"
+            android:textFontWeight="500"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

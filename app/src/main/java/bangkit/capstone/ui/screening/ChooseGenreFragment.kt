@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.GridLayoutManager
 import bangkit.capstone.R
@@ -36,7 +37,7 @@ class ChooseGenreFragment : Fragment() {
             setAdapterBehaviour(object : CardAdapter.AdapterBehaviour<Genre> {
                 override fun onItemBind(data: Genre, holder: CardAdapter<Genre>.CardViewHolder) {
                     Glide.with(holder.itemView.context)
-                        .load(Constants.defaultImage)
+                        .load(AppCompatResources.getDrawable(requireContext(), R.drawable.books))
                         .apply(
                             RequestOptions().override(200, 200)
                                 .transform(CenterCrop())

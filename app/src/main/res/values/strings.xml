@@ -22,4 +22,7 @@
     <string name="age">Age</string>
     <string name="education">Education</string>
     <string name="swipe">Swipe right to start commitment</string>
+    <string name="SHARED_PREFERENCE_KEY_NAME">KEY_NAME</string>
+    <string name="unmatch"><![CDATA[< Unmatch]]></string>
+    <string name="match"><![CDATA[Match >]]></string>
 </resources>

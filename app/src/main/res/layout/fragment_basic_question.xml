@@ -14,7 +14,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/personaldatentry_subtitle"
         android:textFontWeight="600"
-        android:textSize="30sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
