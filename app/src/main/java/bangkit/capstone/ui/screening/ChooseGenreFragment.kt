@@ -9,9 +9,9 @@ import androidx.fragment.app.commit
 import androidx.recyclerview.widget.GridLayoutManager
 import bangkit.capstone.R
 import bangkit.capstone.adapter.CardAdapter
-import bangkit.capstone.data.Genre
+import bangkit.capstone.core.data.model.Genre
 import bangkit.capstone.databinding.FragmentChooseGenreBinding
-import bangkit.capstone.dummy.ProvideDummy
+import bangkit.capstone.core.data.dummy.ProvideDummy
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions

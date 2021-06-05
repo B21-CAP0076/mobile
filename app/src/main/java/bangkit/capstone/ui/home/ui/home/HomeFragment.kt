@@ -4,21 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import bangkit.capstone.R
 import bangkit.capstone.adapter.BookAdapter
 import bangkit.capstone.adapter.CommitmentAdapter
-import bangkit.capstone.data.Book
-import bangkit.capstone.data.Commitment
+import bangkit.capstone.core.data.model.Book
 import bangkit.capstone.databinding.FragmentHomeBinding
-import bangkit.capstone.dummy.ProvideDummy
-import bangkit.capstone.ui.home.ui.detail_book.DetailBookFragment
+import bangkit.capstone.core.data.dummy.ProvideDummy
 
 class HomeFragment : Fragment() {
 

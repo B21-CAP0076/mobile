@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.GridLayoutManager
 import bangkit.capstone.R
-import bangkit.capstone.data.Hobby
+import bangkit.capstone.core.data.model.Hobby
 import bangkit.capstone.adapter.CardAdapter
 import bangkit.capstone.databinding.FragmentChooseHobbyBinding
-import bangkit.capstone.dummy.ProvideDummy
+import bangkit.capstone.core.data.dummy.ProvideDummy
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions

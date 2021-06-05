@@ -3,7 +3,6 @@ package bangkit.capstone.ui.screening
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import bangkit.capstone.data.BasicQuestion
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
