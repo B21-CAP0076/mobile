@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.core.widget.doAfterTextChanged
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import bangkit.capstone.adapter.BookAdapter
-import bangkit.capstone.core.data.model.Book
+import bangkit.capstone.core.data.Book
 import bangkit.capstone.databinding.FragmentChooseBookBinding
-import bangkit.capstone.core.data.dummy.ProvideDummy
+import bangkit.capstone.dummy.ProvideDummy
 import bangkit.capstone.ui.home.HomeActivity
 
 
@@ -39,21 +41,10 @@ class ChooseBookFragment : Fragment() {
 
             })
         }
-        binding.fragmentchoosebookRv.layoutManager = LinearLayoutManager(requireContext())
-        binding.fragmentchoosebookSv.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-//                if (ProvideDummy.bookList.contains(query)) {
-//                    adapter.filter.filter(query)
-//                } else {
-//                    Toast.makeText(this@MainActivity, "No Match found", Toast.LENGTH_LONG).show()
-//                }
-                return false
-            }
-            override fun onQueryTextChange(newText: String): Boolean {
-//                adapter.filter.filter(newText)
-                return false
-            }
-        })
+        binding.fragmentchoosebookRv.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.fragmentchoosebookSv.doAfterTextChanged {
+            // todo todo
+        }
         binding.fragmentchoosebookButton.setOnClickListener {
             val intent = Intent(requireActivity(), HomeActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

@@ -10,14 +10,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textFontWeight="600"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:layout_marginTop="8dp"
         android:text="@string/fragmentchoosebook_subtitle" />
 
-    <SearchView
+    <EditText
         android:id="@+id/fragmentchoosebook_sv"
         android:queryHint="Search Title..."
+        android:hint="Search Title..."
         android:clickable="true"
+        android:drawableLeft="@drawable/ic_baseline_search_24"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true" />

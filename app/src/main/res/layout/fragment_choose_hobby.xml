@@ -13,7 +13,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/fragmentchoosehobby_subtitle"
         android:textFontWeight="600"
-        android:textSize="30sp" />
+        android:textSize="20sp" />
 
     <include layout="@layout/card_rv" android:id="@+id/hobby_rv"/>
 

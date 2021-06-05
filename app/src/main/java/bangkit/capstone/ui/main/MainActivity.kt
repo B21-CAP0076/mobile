@@ -1,6 +1,7 @@
 package bangkit.capstone.ui.main
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.ActivityResult
@@ -8,7 +9,9 @@ import androidx.activity.result.contract.ActivityResultContracts.StartActivityFo
 import androidx.appcompat.app.AppCompatActivity
 import bangkit.capstone.R
 import bangkit.capstone.databinding.ActivityMainBinding
+import bangkit.capstone.ui.home.HomeActivity
 import bangkit.capstone.ui.screening.PersonalDataEntryActivity
+import bangkit.capstone.util.SharedPreferenceHelper
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -32,6 +35,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
+
+        // TEMPORARY
+        goToPersonalDataActivity()
+
+//        if (SharedPreferenceHelper.isStringExist(this, getString(R.string.SHARED_PREFERENCE_KEY_NAME))) {
+//            val intent = Intent(this@MainActivity, HomeActivity::class.java).apply {
+//                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//            }
+//            startActivity(intent)
+//        }
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.server_client_id))
@@ -63,33 +77,28 @@ class MainActivity : AppCompatActivity() {
             val signInIntent = mGoogleSignInClient.signInIntent
             loginResultHandler.launch(signInIntent)
         }
-//            val request: GetSignInIntentRequest = GetSignInIntentRequest.builder()
-//                .setServerClientId(getString(R.string.server_client_id))
-//                .build()
-//
-//            Identity.getSignInClient(this)
-//                .getSignInIntent(request)
-//                .addOnSuccessListener {
-//                    loginResultHandler(it)
-//                }
     }
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
             val idToken = account!!.idToken
-            Log.d(TAG, "Token : ${idToken}")
-
-            // TODO(developer): send ID Token to server and validate
-//            updateUI(account)
-            val intent = Intent(this@MainActivity, PersonalDataEntryActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            val name = account.displayName
+            if (name != null) {
+                SharedPreferenceHelper.setString(this, getString(R.string.SHARED_PREFERENCE_KEY_NAME), name)
             }
-            startActivity(intent)
+            goToPersonalDataActivity()
         } catch (e: ApiException) {
             Log.w(TAG, "handleSignInResult:error", e)
 //            updateUI(null)
         }
+    }
+
+    private fun goToPersonalDataActivity() {
+        val intent = Intent(this@MainActivity, PersonalDataEntryActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        startActivity(intent)
     }
 }
 

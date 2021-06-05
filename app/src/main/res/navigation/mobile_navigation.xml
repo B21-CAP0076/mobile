@@ -11,37 +11,34 @@
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_navigation_home_to_detailBookFragment"
-            app:destination="@id/detailBookFragment" />
+            android:id="@+id/action_navigation_home_to_commitmentRoomFragment"
+            app:destination="@id/commitmentRoomFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_matchMakingFragment"
+            app:destination="@id/matchMakingFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="bangkit.capstone.ui.home.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
-
-    <fragment
         android:id="@+id/navigation_notifications"
-        android:name="bangkit.capstone.ui.home.ui.notifications.NotificationsFragment"
+        android:name="bangkit.capstone.ui.home.ui.notifications.CommitmentListFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
-    <fragment
-        android:id="@+id/detailBookFragment"
-        android:name="bangkit.capstone.ui.home.ui.detail_book.DetailBookFragment"
-        android:label="fragment_detail_book"
-        tools:layout="@layout/fragment_detail_book" >
-        <argument
-            android:name="book_id"
-            app:argType="integer"
-            android:defaultValue="0" />
+        tools:layout="@layout/fragment_commitmentlist" >
         <action
-            android:id="@+id/action_detailBookFragment_to_matchMakingFragment"
-            app:destination="@id/matchMakingFragment" />
+            android:id="@+id/action_navigation_notifications_to_commitmentRoomFragment"
+            app:destination="@id/commitmentRoomFragment" />
     </fragment>
     <fragment
         android:id="@+id/matchMakingFragment"
         android:name="bangkit.capstone.ui.home.ui.match_making.MatchMakingFragment"
         android:label="match_making_fragment"
-        tools:layout="@layout/match_making_fragment" />
+        tools:layout="@layout/match_making_fragment" >
+        <action
+            android:id="@+id/action_matchMakingFragment_to_commitmentRoomFragment"
+            app:destination="@id/commitmentRoomFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/commitmentRoomFragment"
+        android:name="bangkit.capstone.ui.home.ui.commitment_room.CommitmentRoomFragment"
+        android:label="commitment_room_fragment"
+        tools:layout="@layout/commitment_room_fragment" />
 </navigation>

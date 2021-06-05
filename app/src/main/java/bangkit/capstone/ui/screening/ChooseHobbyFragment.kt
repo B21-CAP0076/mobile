@@ -5,13 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.GridLayoutManager
 import bangkit.capstone.R
-import bangkit.capstone.core.data.model.Hobby
+import bangkit.capstone.core.data.Hobby
 import bangkit.capstone.adapter.CardAdapter
 import bangkit.capstone.databinding.FragmentChooseHobbyBinding
-import bangkit.capstone.core.data.dummy.ProvideDummy
+import bangkit.capstone.dummy.ProvideDummy
+import bangkit.capstone.util.Constants
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
@@ -37,13 +39,13 @@ class ChooseHobbyFragment : Fragment() {
             setAdapterBehaviour(object : CardAdapter.AdapterBehaviour<Hobby> {
                 override fun onItemBind(data: Hobby, holder: CardAdapter<Hobby>.CardViewHolder) {
                     Glide.with(holder.itemView.context)
-                        .load(data.image)
+                        .load(AppCompatResources.getDrawable(requireContext(), R.drawable.books))
                         .apply(
                             RequestOptions().override(200, 200)
                                 .transform(CenterCrop())
                         )
                         .into(holder.image)
-                    holder.title.text = data.title
+                    holder.title.text = data.name
                     holder.card.setOnCheckedChangeListener { card, isChecked ->
                         // do smth
                     }
