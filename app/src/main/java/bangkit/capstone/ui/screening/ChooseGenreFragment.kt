@@ -10,7 +10,7 @@ import androidx.fragment.app.commit
 import androidx.recyclerview.widget.GridLayoutManager
 import bangkit.capstone.R
 import bangkit.capstone.adapter.CardAdapter
-import bangkit.capstone.data.Genre
+import bangkit.capstone.core.data.Genre
 import bangkit.capstone.databinding.FragmentChooseGenreBinding
 import bangkit.capstone.dummy.ProvideDummy
 import bangkit.capstone.util.Constants

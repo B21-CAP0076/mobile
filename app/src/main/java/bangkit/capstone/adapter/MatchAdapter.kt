@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import bangkit.capstone.R
-import bangkit.capstone.data.Match
+import bangkit.capstone.core.data.Match
 import bangkit.capstone.databinding.MatchRvItemBinding
 import bangkit.capstone.util.Formatter
 import com.bumptech.glide.Glide

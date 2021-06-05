@@ -1,6 +1,6 @@
 package bangkit.capstone.dummy
 
-import bangkit.capstone.data.*
+import bangkit.capstone.core.data.*
 import com.google.gson.Gson
 
 object ProvideDummy {

@@ -8,10 +8,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import bangkit.capstone.R
-import bangkit.capstone.data.Book
-import bangkit.capstone.data.Commitment
-import bangkit.capstone.data.ReadingCommitment
-import bangkit.capstone.data.User
+import bangkit.capstone.core.data.Book
+import bangkit.capstone.core.data.Commitment
+import bangkit.capstone.core.data.ReadingCommitment
+import bangkit.capstone.core.data.User
 import bangkit.capstone.databinding.CommitmentRvItemBinding
 import bangkit.capstone.util.Formatter
 import com.bumptech.glide.Glide

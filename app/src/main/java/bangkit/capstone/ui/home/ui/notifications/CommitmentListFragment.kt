@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import bangkit.capstone.R
 import bangkit.capstone.adapter.BookAdapter
 import bangkit.capstone.adapter.CommitmentAdapter
-import bangkit.capstone.data.Book
-import bangkit.capstone.data.Commitment
-import bangkit.capstone.data.ReadingCommitment
+import bangkit.capstone.core.data.Book
+import bangkit.capstone.core.data.Commitment
+import bangkit.capstone.core.data.ReadingCommitment
 import bangkit.capstone.databinding.FragmentCommitmentlistBinding
 import bangkit.capstone.dummy.ProvideDummy
 import bangkit.capstone.ui.home.ui.home.HomeFragmentDirections

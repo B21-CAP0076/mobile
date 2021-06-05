@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import bangkit.capstone.R
-import bangkit.capstone.data.Book
+import bangkit.capstone.core.data.Book
 import bangkit.capstone.databinding.BookRvItemBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop

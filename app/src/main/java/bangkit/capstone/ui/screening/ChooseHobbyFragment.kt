@@ -9,7 +9,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.GridLayoutManager
 import bangkit.capstone.R
-import bangkit.capstone.data.Hobby
+import bangkit.capstone.core.data.Hobby
 import bangkit.capstone.adapter.CardAdapter
 import bangkit.capstone.databinding.FragmentChooseHobbyBinding
 import bangkit.capstone.dummy.ProvideDummy
