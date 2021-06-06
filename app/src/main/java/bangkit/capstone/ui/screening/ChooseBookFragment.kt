@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import bangkit.capstone.adapter.BookAdapter
@@ -21,6 +22,7 @@ class ChooseBookFragment : Fragment() {
 
     private var _binding: FragmentChooseBookBinding?=null
     private val binding get() = _binding!!
+    private val viewModel: ChooseBookViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,16 +38,16 @@ class ChooseBookFragment : Fragment() {
             setData(ProvideDummy.bookList)
             setBehaviour(object : BookAdapter.BookAdapterBehaviour {
                 override fun setOnClickListener(book: Book) {
-                    // todo
+                    viewModel.setBook(book)
                 }
-
             })
         }
         binding.fragmentchoosebookRv.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.fragmentchoosebookSv.doAfterTextChanged {
-            // todo todo
+            // todo todo search
         }
         binding.fragmentchoosebookButton.setOnClickListener {
+            viewModel.submit()
             val intent = Intent(requireActivity(), HomeActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }

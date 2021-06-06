@@ -6,6 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import bangkit.capstone.data.BasicQuestion
+import bangkit.capstone.util.Constants
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class BasicQuestionViewModel : ViewModel() {
@@ -14,12 +18,15 @@ class BasicQuestionViewModel : ViewModel() {
         private const val TAG = "BasicQuestionViewModel"
     }
 
-    private val _job = MutableLiveData<String>("")
-    val job: LiveData<String> = _job
-    private val _age = MutableLiveData<Int>()
-    val age: LiveData<Int> = _age
-    private val _education = MutableLiveData<String>()
-    val education: LiveData<String> = _education
+    private val _job = MutableStateFlow("")
+    private val _age = MutableStateFlow(0)
+    private val _education = MutableStateFlow("")
+    val isSubmitEnabled: Flow<Boolean> = combine(_job, _age, _education) { j, a, e ->
+        val isJobValid = Constants.JOB_LIST.contains(j)
+        val isAgeValid = a in 1..101
+        val isEducationValid = Constants.EDUCATION_LIST.contains(e)
+        return@combine isJobValid and isAgeValid and isEducationValid
+    }
 
     fun setJob(text: String) {
         viewModelScope.launch {
@@ -45,9 +52,9 @@ class BasicQuestionViewModel : ViewModel() {
                 TAG,
                 "Submit ${
                     BasicQuestion(
-                        job = _job.value!!,
-                        education = _education.value!!,
-                        age = _age.value!!
+                        job = _job.value,
+                        education = _education.value,
+                        age = _age.value
                     )
                 }"
             )
