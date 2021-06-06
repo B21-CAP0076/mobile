@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import bangkit.capstone.R
 import bangkit.capstone.adapter.CardAdapter
@@ -24,6 +25,7 @@ class ChooseGenreFragment : Fragment() {
     private var _binding : FragmentChooseGenreBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ChooseGenreViewModel by viewModels()
+    private lateinit var adapter: CardAdapter<Genre>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +37,7 @@ class ChooseGenreFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.genreRv.cardRv.adapter = CardAdapter<Genre>().apply {
+        adapter = CardAdapter<Genre>().apply {
             setAdapterBehaviour(object : CardAdapter.AdapterBehaviour<Genre> {
                 override fun onItemBind(data: Genre, holder: CardAdapter<Genre>.CardViewHolder) {
                     Glide.with(holder.itemView.context)
@@ -52,9 +54,13 @@ class ChooseGenreFragment : Fragment() {
                     }
                 }
             })
-            setData(ProvideDummy.genreList)
         }
-        binding.genreRv.cardRv.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.genreRv.cardRv.adapter = adapter
+            binding.genreRv.cardRv.layoutManager = GridLayoutManager(requireContext(), 2)
+        viewModel.genreList.observe(viewLifecycleOwner, Observer {
+            adapter.setData(it)
+        })
+        viewModel.getGenre()
         binding.fragmentchoosegenreButton.setOnClickListener {
             parentFragmentManager.commit {
                 replace(R.id.container, ChooseBookFragment())

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import bangkit.capstone.R
 import bangkit.capstone.adapter.MatchAdapter
@@ -21,7 +22,7 @@ import com.yuyakaido.android.cardstackview.Direction
 
 class MatchMakingFragment : Fragment() {
 
-    private val viewModel: MatchMakingViewModel by activityViewModels()
+    private val viewModel: MatchMakingViewModel by navGraphViewModels(R.id.mobile_navigation)
     private var _binding: MatchMakingFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: MatchAdapter

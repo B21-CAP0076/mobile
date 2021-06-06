@@ -36,6 +36,10 @@ class CommitmentRoomFragment : Fragment() {
             activity?.actionBar?.title = it.bookSummary.first().readingCommitment?.partner?.username
             adapter.setData(it.bookSummary)
         })
+        binding.commitmentroomfragmentSendbutton.setOnClickListener {
+            viewModel.sendSummary(binding.commitmentroomgragmentEt.text.toString())
+            binding.commitmentroomgragmentEt.text = null
+        }
         viewModel.getCommitment("demo")
     }
 

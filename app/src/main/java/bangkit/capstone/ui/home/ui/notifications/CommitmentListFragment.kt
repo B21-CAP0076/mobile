@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import bangkit.capstone.R
 import bangkit.capstone.adapter.BookAdapter
@@ -22,11 +23,10 @@ import bangkit.capstone.ui.home.ui.home.HomeFragmentDirections
 
 class CommitmentListFragment : Fragment() {
 
-    private lateinit var commitmentListViewModel: CommitmentListViewModel
+    private val commitmentListViewModel: CommitmentListViewModel by navGraphViewModels(R.id.mobile_navigation)
     private var _binding: FragmentCommitmentlistBinding? = null
+    private lateinit var adapter: CommitmentAdapter
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -34,28 +34,29 @@ class CommitmentListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        commitmentListViewModel =
-            ViewModelProvider(this).get(CommitmentListViewModel::class.java)
-
         _binding = FragmentCommitmentlistBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-//        val textView: TextView = binding.textNotifications
-//        commitmentListViewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
-
         binding.fragmentcommitmentlistRv.layoutManager =
             LinearLayoutManager(requireContext())
-        binding.fragmentcommitmentlistRv.adapter = CommitmentAdapter().apply {
+       adapter = CommitmentAdapter().apply {
             setData(ProvideDummy.commitmentList)
             setBehaviour(object : CommitmentAdapter.CommitmentAdapterBehaviour {
                 override fun onCommitmentClicked(commitment: ReadingCommitment) {
-                    findNavController().navigate(R.id.action_navigation_notifications_to_commitmentRoomFragment)
+                    findNavController().navigate(
+                        CommitmentListFragmentDirections.actionNavigationNotificationsToCommitmentRoomFragment(
+                            commitmentId = commitment.id!!
+                        )
+                    )
                 }
             })
         }
-        return root
+        binding.fragmentcommitmentlistRv.adapter = adapter
+        commitmentListViewModel.commitmentList.observe(viewLifecycleOwner, {
+            adapter.setData(it)
+        })
+        commitmentListViewModel.getCommitment()
+            return root
     }
 
     override fun onDestroyView() {

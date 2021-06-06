@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import bangkit.capstone.R
@@ -29,6 +30,7 @@ class ChooseHobbyFragment : Fragment() {
     private var _binding: FragmentChooseHobbyBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ChooseHobbyViewModel by viewModels()
+    private lateinit var adapter: CardAdapter<Hobby>
 
     companion object {
         private const val TAG = "ChooseHobbyFragment"
@@ -39,7 +41,7 @@ class ChooseHobbyFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentChooseHobbyBinding.inflate(layoutInflater)
-        binding.hobbyRv.cardRv.adapter = CardAdapter<Hobby>().apply {
+        adapter = CardAdapter<Hobby>().apply {
             setAdapterBehaviour(object : CardAdapter.AdapterBehaviour<Hobby> {
                 override fun onItemBind(data: Hobby, holder: CardAdapter<Hobby>.CardViewHolder) {
                     Glide.with(holder.itemView.context)
@@ -56,9 +58,13 @@ class ChooseHobbyFragment : Fragment() {
                     }
                 }
             })
-            setData(ProvideDummy.hobbyList)
         }
+        binding.hobbyRv.cardRv.adapter = adapter
         binding.hobbyRv.cardRv.layoutManager = GridLayoutManager(requireContext(), 2)
+        viewModel.hobbyList.observe(viewLifecycleOwner, Observer {
+            adapter.setData(it)
+        })
+        viewModel.getHobbyList()
         binding.fragmentchoosehobbyButton.setOnClickListener {
             viewModel.submit()
             parentFragmentManager.commit {
