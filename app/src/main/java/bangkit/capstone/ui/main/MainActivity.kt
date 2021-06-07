@@ -37,18 +37,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
-        // TEMPORARY
-        goToPersonalDataActivity()
+//        // TEMPORARY
+//        goToPersonalDataActivity()
 
-//        if (SharedPreferenceHelper.isStringExist(this, getString(R.string.SHARED_PREFERENCE_KEY_NAME))) {
-//            val intent = Intent(this@MainActivity, HomeActivity::class.java).apply {
-//                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//            }
-//            startActivity(intent)
-//        }
+        if (SharedPreferenceHelper.isStringExist(this, getString(R.string.SHARED_PREFERENCE_KEY_NAME))) {
+            val intent = Intent(this@MainActivity, HomeActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            startActivity(intent)
+        }
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.server_client_id))
+            .requestProfile()
             .requestEmail()
             .build()
 
