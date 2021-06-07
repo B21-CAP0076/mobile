@@ -20,13 +20,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ApiModule {
-
-    @Singleton
-    @Provides
-    fun provideSharedPreference(@ApplicationContext context: Context): SharedPreferences {
-        return context.getSharedPreferences("auth_header", Context.MODE_PRIVATE)
-    }
-
     @Singleton
     @Provides
     fun provideUserApi(headerInterceptor: HeaderInterceptor): UserApi {

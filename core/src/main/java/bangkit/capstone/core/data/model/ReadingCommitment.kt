@@ -1,5 +1,6 @@
 package bangkit.capstone.core.data.model
 
+import bangkit.capstone.core.data.choice.MatchStatus
 import java.util.*
 
 
@@ -7,11 +8,11 @@ import java.util.*
 data class ReadingCommitment(
     val id: String,
     val owner: User,
-    var partner: User? = null,
+    val owner_reading_cluster: Int? = null,
     val creation_date: Date,
     val end_date: Date,
-    val owner_reading_cluster: Int? = null,
-    val book: Book
+    val book: Book,
+    val status: MatchStatus
 )
 
 // PUT

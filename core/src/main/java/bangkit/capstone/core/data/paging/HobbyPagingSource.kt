@@ -12,14 +12,15 @@ import javax.inject.Singleton
 
 @Singleton
 class HobbyPagingSource @Inject constructor(
-    private val api: HobbyApi
+    private val api: HobbyApi,
+    private val name: String? = null
 ) : PagingSource<Int, Hobby>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Hobby> {
         val page = params.key ?: 1
 
         return try {
-            val response = api.getAll(page)
+            val response = api.getAll(page, name)
 
             LoadResult.Page(
                 data = response,
