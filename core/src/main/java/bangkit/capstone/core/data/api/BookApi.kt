@@ -10,9 +10,7 @@ interface BookApi {
     @GET("/book/")
     suspend fun getAll(
         @Query("page") page: Int = 1,
-        @Query("title") title: String? = null,
-        @Query("author") author: String? = null,
-        @Query("genre") genre: String? = null
+        @Query("title") title: String? = null
     ): List<Book>
 
     @GET("/book/{id}")

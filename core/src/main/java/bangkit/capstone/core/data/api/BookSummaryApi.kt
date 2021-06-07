@@ -6,29 +6,26 @@ import bangkit.capstone.core.data.model.BookSummaryUpdate
 import retrofit2.http.*
 
 interface BookSummaryApi {
-    @GET("/book_summary/")
-    suspend fun getAll(
-        @Query("page") page: Int = 1,
-        @Query("reading_commitment_id") readingCommitmentId: String? = null
-    ): List<BookSummary>
 
-    @GET("/book_summary/{id}")
-    suspend fun get(
-        @Path("id") id: String
-    ): BookSummary
+    @GET("/book_summary/user/reading_commitment")
+    suspend fun getAllWithinReadingCommitment(
+        @Query("reading_commitment_id") readingCommitmentId: String,
+        @Query("page") page: Int = 1
+    ) : List<BookSummary>
 
-    @PUT("/book_summary/")
+    @PUT("/book_summary/create")
     suspend fun create(
+        @Query("reading_commitment_id") readingCommitmentId: String,
         @Body bookSummaryCreate: BookSummaryCreate
     ): BookSummary
 
-    @PATCH("/book_summary/{id}")
+    @PATCH("/book_summary/update/{id}")
     suspend fun update(
         @Path("id") id: String,
         @Body bookSummaryUpdate: BookSummaryUpdate
     ): BookSummary
 
-    @DELETE("/book_summary/{id}")
+    @DELETE("/book_summary/delete/{id}")
     suspend fun delete(
         @Path("id") id: String
     ): BookSummary

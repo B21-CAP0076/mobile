@@ -13,16 +13,14 @@ import javax.inject.Singleton
 @Singleton
 class BookPagingSource @Inject constructor(
     private val api: BookApi,
-    private val title: String? = null,
-    private val author: String? = null,
-    private val genre: String? = null
+    private val title: String? = null
 ) : PagingSource<Int, Book>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Book> {
         val page = params.key ?: 1
 
         return try {
-            val response = api.getAll(page, title, author, genre)
+            val response = api.getAll(page = page, title = title)
 
             LoadResult.Page(
                 data = response,

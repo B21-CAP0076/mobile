@@ -11,25 +11,19 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
-class BookRepository @Inject constructor (
+class BookRepository @Inject constructor(
     private val api: BookApi
 ) {
 
-    @OptIn(ExperimentalPagingApi::class)
-    fun getBooks(
-        title: String? = null, author: String? = null, genre: String? = null
-    ) : Flow<PagingData<Book>>{
+    fun getAll(title: String? = null): Flow<PagingData<Book>> {
         return Pager(
             config = PagingConfig(pageSize = 50, enablePlaceholders = false),
-            pagingSourceFactory = { BookPagingSource(
-                api, title, author, genre
-            )}
+            pagingSourceFactory = { BookPagingSource(api, title) }
         ).flow
     }
 
-    suspend fun getBook(id: String) : Flow<Book> {
+    suspend fun get(id: String): Flow<Book> {
         return flowOf(api.get(id))
     }
-
 
 }

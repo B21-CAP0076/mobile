@@ -2,35 +2,36 @@ package bangkit.capstone.core.data.api
 
 import bangkit.capstone.core.data.model.ReadingCommitment
 import bangkit.capstone.core.data.model.ReadingCommitmentCreate
-import bangkit.capstone.core.data.model.ReadingCommitmentUpdate
 import retrofit2.http.*
 
+
 interface ReadingCommitmentApi {
-    @GET("/reading_commitment/")
-    suspend fun getAll(
-        @Query("page") page: Int = 1,
-        @Query("owner_id") ownerId: String? = null,
-        @Query("partner_id") partnerId: String? = null,
-        @Query("owner_reading_cluster") ownerReadingCluster: Int? = null
+    @GET("/reading_commitment/user")
+    suspend fun getAllUserReadingCommitment(
+        @Query("page") page: Int
     ): List<ReadingCommitment>
 
-    @GET("/reading_commitment/{id}")
-    suspend fun get(
-        @Path("id") id: String,
-    ): ReadingCommitment
+    @GET("/reading_commitment/potential_match")
+    suspend fun getAllUserPotentialMatch(
+        @Query("page") page: Int
+    ) : List<ReadingCommitment>
 
-    @PUT("/reading_commitment/")
+    @GET("/reading_commitment/{match_id}/own")
+    suspend fun getOwnReadingCommitmentWithinMatch(
+        @Path("match_id") matchId: String
+    ) : ReadingCommitment
+
+    @GET("/reading_commitment/{match_id}/partner")
+    suspend fun getPartnerReadingCommitmentWithinMatch(
+        @Path("match_id") matchId: String
+    ) : ReadingCommitment
+
+    @PUT("/reading_commitment/create")
     suspend fun create(
         @Body readingCommitmentCreate: ReadingCommitmentCreate
     ): ReadingCommitment
 
-    @PATCH("/reading_commitment/{id}")
-    suspend fun update(
-        @Path("id") id: String,
-        @Body readingCommitmentUpdate: ReadingCommitmentUpdate
-    ): ReadingCommitment
-
-    @DELETE("/reading_commitment/{id}")
+    @DELETE("/reading_commitment/delete/{id}")
     suspend fun delete(
         @Path("id") id: String
     ): ReadingCommitment

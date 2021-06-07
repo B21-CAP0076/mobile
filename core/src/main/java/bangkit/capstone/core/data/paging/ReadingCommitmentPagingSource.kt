@@ -13,16 +13,19 @@ import javax.inject.Singleton
 @Singleton
 class ReadingCommitmentPagingSource @Inject constructor(
     private val api: ReadingCommitmentApi,
-    private val ownerId: String? = null,
-    private val partnerId: String? = null,
-    private val ownerReadingCluster: Int? = null
+    private val type: String
 ) : PagingSource<Int, ReadingCommitment>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ReadingCommitment> {
         val page = params.key ?: 1
 
         return try {
-            val response = api.getAll(page, ownerId, partnerId, ownerReadingCluster)
+            val response =
+                if (type == USER_READING_COMMITMENT) {
+                    api.getAllUserReadingCommitment(page = page)
+                } else {
+                    api.getAllUserPotentialMatch(page = page)
+                }
 
             LoadResult.Page(
                 data = response,
@@ -42,6 +45,11 @@ class ReadingCommitmentPagingSource @Inject constructor(
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
         }
+    }
+
+    companion object {
+        const val USER_POTENTIAL_MATCH = "user_potential_match"
+        const val USER_READING_COMMITMENT = "all_user_reading_commitment"
     }
 
 }

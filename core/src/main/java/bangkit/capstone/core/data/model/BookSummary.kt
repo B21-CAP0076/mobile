@@ -13,13 +13,10 @@ data class BookSummary(
 
 // PUT
 data class BookSummaryCreate(
-    val reading_commitment: ReadingCommitment,
-    val creation_date: Date,
     val summary: String
 )
 
 // PATCH
 data class BookSummaryUpdate(
-    val creation_date: Date,
     val summary: String
 )

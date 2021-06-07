@@ -1,30 +1,29 @@
 package bangkit.capstone.core.data.api
 
+import bangkit.capstone.core.data.model.Header
 import bangkit.capstone.core.data.model.User
 import bangkit.capstone.core.data.model.UserUpdate
 import retrofit2.http.*
 
+
 interface UserApi {
-    @GET("/user/")
-    suspend fun getAll(
-        @Query("page") page: Int = 1,
-        @Query("reading_cluster") readingCluster: Int? = null
-    ): List<User>
+    @GET("/user/gauth/swap_token")
+    suspend fun gauthSwapToken(
+        @Query("token") token: String
+    ): Header
 
-    @GET("/user/{id}")
-    suspend fun get(
-        @Path("id") id: String
-    ): User
+    @GET("/user/me")
+    suspend fun me(): User
 
-    @PATCH("/user/{id}")
+    @PATCH("/user")
     suspend fun update(
-        @Path("id") id: String,
         @Body userUpdate: UserUpdate
     ): User
 
-    @DELETE("/user/{id}")
-    suspend fun delete(
-        @Path("id") id: String
-    ): User
+    @DELETE("/user")
+    suspend fun delete(): User
+
+    @PATCH("/user/predict")
+    suspend fun predictUserCluster()
 
 }
