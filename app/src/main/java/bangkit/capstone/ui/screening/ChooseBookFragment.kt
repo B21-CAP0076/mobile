@@ -12,7 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import bangkit.capstone.adapter.BookAdapter
-import bangkit.capstone.data.Book
+import bangkit.capstone.core.data.Book
 import bangkit.capstone.databinding.FragmentChooseBookBinding
 import bangkit.capstone.dummy.ProvideDummy
 import bangkit.capstone.ui.home.HomeActivity

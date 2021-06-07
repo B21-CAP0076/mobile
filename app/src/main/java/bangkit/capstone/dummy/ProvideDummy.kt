@@ -1,6 +1,10 @@
 package bangkit.capstone.dummy
 
-import bangkit.capstone.data.*
+import bangkit.capstone.core.data.*
+import bangkit.capstone.core.data.model.Book
+import bangkit.capstone.core.data.model.Genre
+import bangkit.capstone.core.data.model.Hobby
+import bangkit.capstone.core.data.model.User
 import com.google.gson.Gson
 
 object ProvideDummy {

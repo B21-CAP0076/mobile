@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import bangkit.capstone.R
 import bangkit.capstone.adapter.BookAdapter
 import bangkit.capstone.adapter.CommitmentAdapter
-import bangkit.capstone.data.Book
-import bangkit.capstone.data.ReadingCommitment
+import bangkit.capstone.core.data.Book
+import bangkit.capstone.core.data.ReadingCommitment
 import bangkit.capstone.databinding.FragmentHomeBinding
 import bangkit.capstone.dummy.ProvideDummy
 import java.util.*

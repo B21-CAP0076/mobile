@@ -8,9 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import bangkit.capstone.R
-import bangkit.capstone.data.BookSummary
-import bangkit.capstone.data.BookSummaryItem
-import bangkit.capstone.data.Match
+import bangkit.capstone.core.data.BookSummary
+import bangkit.capstone.core.data.BookSummaryItem
+import bangkit.capstone.core.data.Match
 import bangkit.capstone.databinding.SummaryRvItemBinding
 import bangkit.capstone.util.Formatter
 import com.bumptech.glide.Glide
