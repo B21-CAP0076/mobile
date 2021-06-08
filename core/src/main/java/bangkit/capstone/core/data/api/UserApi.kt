@@ -24,6 +24,6 @@ interface UserApi {
     suspend fun delete(): User
 
     @PATCH("/user/predict")
-    suspend fun predictUserCluster()
+    suspend fun predictUserCluster(): User
 
 }
