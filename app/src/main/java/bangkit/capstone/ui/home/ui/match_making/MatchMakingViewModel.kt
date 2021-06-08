@@ -3,7 +3,7 @@ package bangkit.capstone.ui.home.ui.match_making
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import bangkit.capstone.core.data.Match
+import bangkit.capstone.core.data.model.Match
 import bangkit.capstone.dummy.ProvideDummy
 
 class MatchMakingViewModel : ViewModel() {

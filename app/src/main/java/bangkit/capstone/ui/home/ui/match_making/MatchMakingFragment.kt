@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import bangkit.capstone.R
 import bangkit.capstone.adapter.MatchAdapter
 import bangkit.capstone.adapter.MatchAdapter.MatchAdapterBehaviour
-import bangkit.capstone.core.data.Match
+import bangkit.capstone.core.data.model.Match
 import bangkit.capstone.databinding.MatchMakingFragmentBinding
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener

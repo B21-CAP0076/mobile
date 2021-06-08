@@ -13,7 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import bangkit.capstone.R
-import bangkit.capstone.core.data.Hobby
+import bangkit.capstone.core.data.model.Hobby
 import bangkit.capstone.adapter.CardAdapter
 import bangkit.capstone.databinding.FragmentChooseHobbyBinding
 import bangkit.capstone.dummy.ProvideDummy

@@ -8,16 +8,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import bangkit.capstone.R
-import bangkit.capstone.core.data.Match
+import bangkit.capstone.core.data.model.Match
+import bangkit.capstone.core.data.model.ReadingCommitment
 import bangkit.capstone.databinding.MatchRvItemBinding
 import bangkit.capstone.util.Formatter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
 
+
+// TODO ini pake commitment
 class MatchAdapter : RecyclerView.Adapter<MatchAdapter.MatchViewHolder>() {
 
-    private  var data: List<Match> = mutableListOf()
+    private  var data: List<ReadingCommitment> = mutableListOf()
     private lateinit var behaviour: MatchAdapterBehaviour
 
     interface MatchAdapterBehaviour {
@@ -38,16 +41,16 @@ class MatchAdapter : RecyclerView.Adapter<MatchAdapter.MatchViewHolder>() {
 
     override fun onBindViewHolder(holder: MatchViewHolder, position: Int) {
         var match = data[position]
-//        Glide.with(holder.itemView.context)
-//            .load(match.readingCommitment.book?.img)
-//            .apply(
-//                RequestOptions().override(93, 140)
-//                    .transform(CenterCrop())
-//            )
-//            .into(holder.bookImage)
-        holder.username.text = match.readingCommitment.owner?.username
-        holder.bookTitle.text = match.readingCommitment.book?.title
-        holder.deadline.text = "Deadline on ${match.deadline}"
+        Glide.with(holder.itemView.context)
+            .load(match.book.img)
+            .apply(
+                RequestOptions().override(93, 140)
+                    .transform(CenterCrop())
+            )
+            .into(holder.bookImage)
+        holder.username.text = match.owner.name
+        holder.bookTitle.text = match.book.title
+        holder.deadline.text = "Deadline on ${Formatter.dateToString(match.end_date)}"
     }
 
     override fun getItemCount(): Int {
@@ -58,7 +61,7 @@ class MatchAdapter : RecyclerView.Adapter<MatchAdapter.MatchViewHolder>() {
         behaviour = b
     }
 
-    fun setData(newData: List<Match>) {
+    fun setData(newData: List<ReadingCommitment>) {
         data = newData
         notifyDataSetChanged()
     }

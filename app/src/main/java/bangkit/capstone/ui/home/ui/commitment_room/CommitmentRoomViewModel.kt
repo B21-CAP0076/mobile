@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import bangkit.capstone.core.data.BookSummary
+import bangkit.capstone.core.data.model.BookSummary
 import bangkit.capstone.dummy.ProvideDummy
 import kotlinx.coroutines.launch
 

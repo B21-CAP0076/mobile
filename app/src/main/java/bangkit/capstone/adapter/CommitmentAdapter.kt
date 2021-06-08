@@ -8,23 +8,23 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import bangkit.capstone.R
-import bangkit.capstone.core.data.Book
-import bangkit.capstone.core.data.Commitment
-import bangkit.capstone.core.data.ReadingCommitment
-import bangkit.capstone.core.data.User
+import bangkit.capstone.core.data.model.Book
+import bangkit.capstone.core.data.model.Match
 import bangkit.capstone.core.data.model.ReadingCommitment
+import bangkit.capstone.core.data.model.User
 import bangkit.capstone.databinding.CommitmentRvItemBinding
 import bangkit.capstone.util.Formatter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.card.MaterialCardView
-import java.text.SimpleDateFormat
 import java.util.*
 
+
+// TODO ini pake Match
 class CommitmentAdapter : RecyclerView.Adapter<CommitmentAdapter.CommitmentViewHolder>() {
 
-    private var data: List<ReadingCommitment> = mutableListOf()
+    private var data: List<Match> = mutableListOf()
     private lateinit var behaviour: CommitmentAdapterBehaviour
 
     inner class CommitmentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -57,18 +57,18 @@ class CommitmentAdapter : RecyclerView.Adapter<CommitmentAdapter.CommitmentViewH
             )
             .into(holder.book1Img)
         holder.description.text = Html.fromHtml(setDescription(commitment.book, commitment.owner, commitment.partner))
-        holder.deadline.text = "Deadline on ${Formatter.getDateTime(commitment.creationDate)}"
+        holder.deadline.text = "Deadline on ${Formatter.dateToString(commitment.creation_date)}"
     }
 
     override fun getItemCount(): Int = data.size
 
-    fun setData(newData: List<ReadingCommitment>) {
+    fun setData(newData: List<Match>) {
         data = newData
         notifyDataSetChanged()
     }
 
     private fun setDescription(book: Book?, user1: User?, user2: User?): String {
-        return "<font color=#000000>Continue reading ${book?.title}</font><font color=#465DCB> with ${user2?.username}" + "</font>"
+        return "<font color=#000000>Continue reading ${book?.title}</font><font color=#465DCB> with ${user2?.name}" + "</font>"
     }
 
     fun setBehaviour(b: CommitmentAdapterBehaviour) {
@@ -76,6 +76,6 @@ class CommitmentAdapter : RecyclerView.Adapter<CommitmentAdapter.CommitmentViewH
     }
 
     interface CommitmentAdapterBehaviour {
-        fun onCommitmentClicked(commitment: ReadingCommitment)
+        fun onCommitmentClicked(commitment: Match)
     }
 }
