@@ -1,6 +1,8 @@
 package bangkit.capstone.dummy
 
-import bangkit.capstone.core.data.*
+import bangkit.capstone.core.data.choice.MatchStatus
+import bangkit.capstone.core.data.model.*
+import bangkit.capstone.util.Formatter
 import com.google.gson.Gson
 
 object ProvideDummy {
@@ -156,20 +158,20 @@ object ProvideDummy {
 
     val readingCommitment1 = ReadingCommitment(
         owner = user1,
-        partner = user2,
         book = bookList[0],
-        creationDate = "2021-06-02T14:36:11.334741",
-        endDate = "2021-06-02T14:36:11.334741",
-        id = "asjfasfoiwe"
+        creation_date = Formatter.stringToDateTime("2021-06-02T14:36:11.334741"),
+        end_date = Formatter.stringToDateTime("2021-06-02T14:36:11.334741"),
+        id = "asjfasfoiwe",
+        status = MatchStatus.MATCH
     )
 
     val readingCommitment2 = ReadingCommitment(
         owner = user1,
-        partner = user2,
         book = bookList[1],
-        creationDate = "2021-06-02T14:36:11.334741",
-        endDate = "2021-06-02T14:36:11.334741",
-        id = "asjfasfoiwe"
+        creation_date = Formatter.stringToDateTime("2021-06-02T14:36:11.334741"),
+        end_date = Formatter.stringToDateTime("2021-06-02T14:36:11.334741"),
+        id = "asjfasfoiwe",
+        status = MatchStatus.MATCH
     )
 
     val commitmentList = listOf<ReadingCommitment>(
@@ -177,26 +179,23 @@ object ProvideDummy {
     )
 
     val matchList = listOf<Match>(
-        Match(readingCommitment = readingCommitment1, deadline = 1622103006),
-        Match(readingCommitment = readingCommitment2, deadline = 1622103006)
+        Match(commitment_1 = readingCommitment1, commitment_2 = readingCommitment2, id = "1622103006", status = MatchStatus.MATCH),
+        Match(commitment_2 = readingCommitment2, commitment_1 = readingCommitment1, id = "162213006", status = MatchStatus.MATCH)
     )
 
-    val bookSummaries: BookSummary = BookSummary(
-        bookSummary = listOf(
-            BookSummaryItem(
-                summary = "Jinkijinki",
-                readingCommitment = readingCommitment2,
-                creationDate = "2021-06-02T14:36:11.334741",
-                id = "yawyaw"
-            ),
-            BookSummaryItem(
-                summary = "bumbumpaw",
-                readingCommitment = readingCommitment2,
-                creationDate = "2021-06-02T14:36:11.334741",
-                id = "yawyaw"
-            )
-        )
-    )
+    val bookSummaries: List<BookSummary> = listOf(
+        BookSummary(
+            summary = "Jinkijinki",
+            reading_commitment = readingCommitment2,
+            creation_date = Formatter.stringToDateTime("2021-06-02T14:36:11.334741"),
+            id = "yawyaw"
+        ),
+        BookSummary(
+            summary = "bumbumpaw",
+            reading_commitment = readingCommitment2,
+            creation_date = Formatter.stringToDateTime("2021-06-02T14:36:11.334741"),
+            id = "yawyw"
+        ))
 
 //    {
 //        "reading_commitment": {

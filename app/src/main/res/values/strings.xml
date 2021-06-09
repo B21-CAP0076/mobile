@@ -25,4 +25,6 @@
     <string name="SHARED_PREFERENCE_KEY_NAME">KEY_NAME</string>
     <string name="unmatch"><![CDATA[< Unmatch]]></string>
     <string name="match"><![CDATA[Match >]]></string>
+    <string name="home_commitment_subtitle">%1$s, check out your on going activites</string>
+    <string name="fragmentbookcommitment_subtitle">Choose book that you want to read</string>
 </resources>

@@ -5,56 +5,88 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import bangkit.capstone.R
 import bangkit.capstone.adapter.BookAdapter
 import bangkit.capstone.adapter.CommitmentAdapter
-import bangkit.capstone.core.data.Book
-import bangkit.capstone.core.data.Commitment
-import bangkit.capstone.core.data.ReadingCommitment
+import bangkit.capstone.core.data.model.Match
+import bangkit.capstone.core.data.model.ReadingCommitment
+import bangkit.capstone.core.data.model.User
+import bangkit.capstone.core.util.SharedPreferenceHelper
 import bangkit.capstone.databinding.FragmentCommitmentlistBinding
 import bangkit.capstone.dummy.ProvideDummy
 import bangkit.capstone.ui.home.ui.home.HomeFragmentDirections
+import bangkit.capstone.util.State
+import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class CommitmentListFragment : Fragment() {
 
-    private lateinit var commitmentListViewModel: CommitmentListViewModel
+    private val commitmentListViewModel: CommitmentListViewModel by viewModels()
     private var _binding: FragmentCommitmentlistBinding? = null
+    private lateinit var adapter: CommitmentAdapter
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+
+    @Inject
+    lateinit var preferenceHelper: SharedPreferenceHelper
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        commitmentListViewModel =
-            ViewModelProvider(this).get(CommitmentListViewModel::class.java)
-
         _binding = FragmentCommitmentlistBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-//        val textView: TextView = binding.textNotifications
-//        commitmentListViewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
-
         binding.fragmentcommitmentlistRv.layoutManager =
             LinearLayoutManager(requireContext())
-        binding.fragmentcommitmentlistRv.adapter = CommitmentAdapter().apply {
-            setData(ProvideDummy.commitmentList)
+       adapter = CommitmentAdapter(preferenceHelper).apply {
             setBehaviour(object : CommitmentAdapter.CommitmentAdapterBehaviour {
-                override fun onCommitmentClicked(commitment: ReadingCommitment) {
-                    findNavController().navigate(R.id.action_navigation_notifications_to_commitmentRoomFragment)
+                override fun onCommitmentClicked(commitment: Match) {
+                    val user = Gson().fromJson<User>(preferenceHelper.getString("user"), User::class.java)
+                    var owner : ReadingCommitment ? = null
+                    var partner : ReadingCommitment ? = null
+                    if (user.id == commitment.commitment_1.owner.id) {
+                        owner = commitment.commitment_1
+                        partner = commitment.commitment_2
+                    } else {
+                        owner = commitment.commitment_2
+                        partner = commitment.commitment_1
+                    }
+                    findNavController().navigate(
+                        CommitmentListFragmentDirections.actionNavigationNotificationsToCommitmentRoomFragment(
+                            commitmentId1 = owner.id,
+                            commitmentId2 = partner.id
+                        )
+                    )
                 }
             })
         }
+        binding.fragmentcommitmentlistRv.adapter = adapter
+        commitmentListViewModel.commitmentList.observe(viewLifecycleOwner, {
+            when (it) {
+                is State.Loading -> {
+                    Toast.makeText(requireContext(), "Loading...", Toast.LENGTH_LONG).show()
+                }
+                is State.Success -> {
+                    adapter.setData(it.data)
+                }
+                is State.Failed -> {
+                    Toast.makeText(requireContext(), it.throwable.toString(), Toast.LENGTH_LONG).show()
+                }
+            }
+        })
+        commitmentListViewModel.getCommitment()
         return root
     }
 

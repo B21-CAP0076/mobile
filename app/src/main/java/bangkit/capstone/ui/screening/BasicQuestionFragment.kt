@@ -1,32 +1,28 @@
 package bangkit.capstone.ui.screening
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.core.widget.addTextChangedListener
+import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import bangkit.capstone.R
+import bangkit.capstone.core.data.choice.Education
 import bangkit.capstone.databinding.FragmentBasicQuestionBinding
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.InternalCoroutinesApi
+import bangkit.capstone.util.Constants
+import bangkit.capstone.util.State
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collect
 
-/**
- * A simple [Fragment] subclass.
- * Use the [BasicQuestionFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+@AndroidEntryPoint
 class BasicQuestionFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private val TAG = "BasicQuestionFragment"
@@ -39,38 +35,15 @@ class BasicQuestionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentBasicQuestionBinding.inflate(inflater, container, false)
-        val items = listOf("Option 1", "Option 2", "Option 3", "Option 4")
-        val adapter = ArrayAdapter(requireContext(), R.layout.list_job_item, items)
-        binding.personaldataentryJobautocomplete.setAdapter(adapter)
-        binding.personaldataentryJobautocomplete.onItemClickListener =
-            AdapterView.OnItemClickListener { parent, _, position, _ ->
-                val selectedItem = parent.getItemAtPosition(position).toString()
-                viewModel.setJob(selectedItem)
+        lifecycleScope.launch {
+            viewModel.isSubmitEnabled.collect {
+                binding.fragmentbasicquestionButton.isEnabled = it
             }
+        }
         binding.personaldataentryAge.doAfterTextChanged {
-            Log.d(TAG, "char sequence $it")
             viewModel.setAge(it.toString().toInt())
         }
-//        binding.personaldataentryAge.addTextChangedListener {
-//            object : TextWatcher {
-//                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//                    Log.d(TAG, "beforeTextChange $p0")
-//                }
-//
-//                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//                    Log.d(TAG, "char sequence $p0")
-//                    viewModel.setAge(p0.toString().toInt())
-//                }
-//
-//                override fun afterTextChanged(p0: Editable?) {
-//                    Log.d(TAG, "afterTextChanged $p0")
-//                    TODO("Not yet implemented")
-//                }
-//
-//            }
-//        }
-        val educationList = listOf("SD", "SMP", "SMA", "D1", "D3", "S1/D4", "S2", "S3")
-        val educationAdapter = ArrayAdapter(requireContext(), R.layout.list_job_item, educationList)
+        val educationAdapter = ArrayAdapter(requireContext(), R.layout.list_job_item, Constants.EDUCATION_LIST.map { it -> it.name })
         binding.personaldataentryEducationautocomplete.setAdapter(educationAdapter)
         binding.personaldataentryEducationautocomplete.setOnItemClickListener { adapterView, view, i, l ->
             val selectedItem = adapterView.getItemAtPosition(i).toString()
@@ -79,21 +52,27 @@ class BasicQuestionFragment : Fragment() {
         }
         binding.fragmentbasicquestionButton.setOnClickListener {
             viewModel.submit()
-            parentFragmentManager.commit {
-                replace(R.id.container, ChooseHobbyFragment())
-                setReorderingAllowed(true)
-                addToBackStack(null)
-            }
         }
+        viewModel.status.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is State.Loading -> {
+                    Toast.makeText(requireContext(), "Loading...", Toast.LENGTH_LONG).show()
+                }
+                is State.Success -> {
+                    Toast.makeText(requireContext(), it.data, Toast.LENGTH_LONG).show()
+                    parentFragmentManager.commit {
+                        replace(R.id.container, ChooseHobbyFragment())
+                        setReorderingAllowed(true)
+                        addToBackStack(null)
+                    }
+                }
+                is State.Failed -> {
+                    Toast.makeText(requireContext(), it.throwable.toString(), Toast.LENGTH_LONG).show()
+                }
+            }
+        })
         return binding.root
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-    }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

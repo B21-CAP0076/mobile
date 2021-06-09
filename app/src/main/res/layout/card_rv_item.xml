@@ -2,8 +2,6 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:checkable="true"
-    android:clickable="true"
-    android:focusable="true"
     android:padding="8dp"
     app:cardUseCompatPadding="true"
     app:strokeColor="@color/cardview_dark_background"

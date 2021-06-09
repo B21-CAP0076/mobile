@@ -1,31 +1,39 @@
 package bangkit.capstone.ui.screening
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import bangkit.capstone.core.data.BasicQuestion
+import bangkit.capstone.core.data.choice.Education
+import bangkit.capstone.core.data.model.UserUpdate
+import bangkit.capstone.core.repository.UserRepository
+import bangkit.capstone.util.Constants
+import bangkit.capstone.util.State
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import java.lang.Exception
+import javax.inject.Inject
 
-class BasicQuestionViewModel : ViewModel() {
+@HiltViewModel
+class BasicQuestionViewModel @Inject constructor(val userRepository: UserRepository) : ViewModel() {
 
     companion object {
         private const val TAG = "BasicQuestionViewModel"
     }
 
-    private val _job = MutableLiveData<String>("")
-    val job: LiveData<String> = _job
-    private val _age = MutableLiveData<Int>()
-    val age: LiveData<Int> = _age
-    private val _education = MutableLiveData<String>()
-    val education: LiveData<String> = _education
-
-    fun setJob(text: String) {
-        viewModelScope.launch {
-            _job.value = text
-        }
+    private val _age = MutableStateFlow(0)
+    private val _education = MutableStateFlow("")
+    private val _status = MutableLiveData<State<String>>()
+    val status : LiveData<State<String>> = _status
+    val isSubmitEnabled: Flow<Boolean> = combine(_age, _education) { a, e ->
+        val isAgeValid = a in 1..101
+        val isEducationValid = Constants.EDUCATION_LIST.map {it -> it.name}.contains(e)
+        return@combine isAgeValid and isEducationValid
     }
+
 
     fun setAge(number: Int) {
         viewModelScope.launch {
@@ -41,16 +49,13 @@ class BasicQuestionViewModel : ViewModel() {
 
     fun submit() {
         viewModelScope.launch {
-            Log.d(
-                TAG,
-                "Submit ${
-                    BasicQuestion(
-                        job = _job.value!!,
-                        education = _education.value!!,
-                        age = _age.value!!
-                    )
-                }"
-            )
+            try {
+                _status.value = State.loading()
+                userRepository.update(UserUpdate(age = _age.value, education = Education.valueOf(_education.value)))
+                _status.value = State.success("Your data has been recorded")
+            } catch (e : Exception) {
+                _status.value = State.failed(e)
+            }
         }
     }
 }
