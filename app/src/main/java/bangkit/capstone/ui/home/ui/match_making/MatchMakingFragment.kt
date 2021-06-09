@@ -1,31 +1,39 @@
 package bangkit.capstone.ui.home.ui.match_making
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.navGraphViewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import bangkit.capstone.R
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
+import androidx.paging.LoadState
 import bangkit.capstone.adapter.MatchAdapter
 import bangkit.capstone.adapter.MatchAdapter.MatchAdapterBehaviour
+import bangkit.capstone.core.data.choice.MatchAction
 import bangkit.capstone.core.data.model.Match
+import bangkit.capstone.core.data.model.ReadingCommitment
 import bangkit.capstone.databinding.MatchMakingFragmentBinding
+import bangkit.capstone.ui.home.HomeActivity
+import bangkit.capstone.util.State
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.Direction
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MatchMakingFragment : Fragment() {
 
-    private val viewModel: MatchMakingViewModel by navGraphViewModels(R.id.mobile_navigation)
+    private val viewModel: MatchMakingViewModel by viewModels()
     private var _binding: MatchMakingFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: MatchAdapter
+    val args: MatchMakingFragmentArgs by navArgs()
+    private var currentIndex : Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,16 +45,27 @@ class MatchMakingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.matchmakingfragmentRv.layoutManager = CardStackLayoutManager(requireContext(), object : CardStackListener {
+        adapter = MatchAdapter().apply {
+            behaviour = object : MatchAdapterBehaviour {
+                override fun onClickListener(match: ReadingCommitment) {
+
+                }
+            }
+        }
+
+        binding.matchmakingfragmentRv.adapter = adapter
+        val layoutManager = CardStackLayoutManager(requireContext(), object : CardStackListener {
             override fun onCardDragging(direction: Direction?, ratio: Float) {
 
             }
 
             override fun onCardSwiped(direction: Direction?) {
+                val id1 = args.commitmentId
+                val id2 = adapter.getMatchData(currentIndex).id
                 if (direction == Direction.Left) {
-                    //todotodo
+                    viewModel.match(id1,id2, MatchAction.SWIPE_LEFT)
                 } else if (direction == Direction.Right) {
-                    // todotodo
+                    viewModel.match(id1,id2, MatchAction.SWIPE_RIGHT)
                 }
             }
 
@@ -59,32 +78,62 @@ class MatchMakingFragment : Fragment() {
             }
 
             override fun onCardAppeared(view: View?, position: Int) {
-
+                currentIndex = position
             }
 
             override fun onCardDisappeared(view: View?, position: Int) {
 
             }
         })
-        adapter = MatchAdapter().apply {
-            setBehaviour(object : MatchAdapterBehaviour {
-                override fun onClickListener(match: Match) {
-                    // todo todo
-                }
-            })
-        }
 
-        binding.matchmakingfragmentRv.adapter = adapter
+        binding.matchmakingfragmentRv.layoutManager = layoutManager
         viewModel.matchList.observe(viewLifecycleOwner, Observer {
-            adapter.setData(it)
+           lifecycleScope.launch {
+               adapter.submitData(it)
+           }
         })
 
-        viewModel.getMatchList()
+        adapter.addLoadStateListener { loadState ->
+
+            if (loadState.refresh is LoadState.Loading) {
+                if (adapter.snapshot().isEmpty()) {
+                    Toast.makeText(requireContext(), "Loading...", Toast.LENGTH_LONG).show()
+                }
+
+            }
+            val error = when {
+                loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
+                loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+                loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
+
+                else -> null
+            }
+            error?.let {
+                if (adapter.snapshot().isEmpty()) {
+                    Toast.makeText(context, it.error.message, Toast.LENGTH_LONG).show()
+                }
+
+            }
+        }
+        viewModel.status.observe(viewLifecycleOwner, {
+            when (it) {
+                is State.Loading -> {
+                    Toast.makeText(requireContext(), "Loading...", Toast.LENGTH_LONG).show()
+                }
+                is State.Success -> {
+                    Toast.makeText(requireContext(), it.data, Toast.LENGTH_LONG).show()
+                }
+                is State.Failed -> {
+                    Toast.makeText(requireContext(), it.throwable.toString(), Toast.LENGTH_LONG).show()
+                }
+            }
+        })
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        currentIndex = 0
     }
 
 }

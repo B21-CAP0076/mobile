@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
@@ -18,12 +19,16 @@ import bangkit.capstone.adapter.CardAdapter
 import bangkit.capstone.databinding.FragmentChooseHobbyBinding
 import bangkit.capstone.dummy.ProvideDummy
 import bangkit.capstone.util.Constants
+import bangkit.capstone.util.State
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+
+@AndroidEntryPoint
 class ChooseHobbyFragment : Fragment() {
     // TODO: Rename and change types of parameters
 
@@ -62,17 +67,40 @@ class ChooseHobbyFragment : Fragment() {
         binding.hobbyRv.cardRv.adapter = adapter
         binding.hobbyRv.cardRv.layoutManager = GridLayoutManager(requireContext(), 2)
         viewModel.hobbyList.observe(viewLifecycleOwner, Observer {
-            adapter.setData(it)
+            when (it) {
+                is State.Loading -> {
+                    Toast.makeText(requireContext(), "Loading...", Toast.LENGTH_LONG).show()
+                }
+                is State.Success -> {
+                    adapter.setData(it.data)
+                }
+                is State.Failed -> {
+                    Toast.makeText(requireContext(), it.throwable.toString(), Toast.LENGTH_LONG).show()
+                }
+            }
         })
         viewModel.getHobbyList()
         binding.fragmentchoosehobbyButton.setOnClickListener {
             viewModel.submit()
-            parentFragmentManager.commit {
-                replace(R.id.container, ChooseGenreFragment())
-                setReorderingAllowed(true)
-                addToBackStack(null)
-            }
         }
+        viewModel.status.observe(viewLifecycleOwner, {
+            when (it) {
+                is State.Loading -> {
+                    Toast.makeText(requireContext(), "Loading...", Toast.LENGTH_LONG).show()
+                }
+                is State.Success -> {
+                    Toast.makeText(requireContext(), it.data, Toast.LENGTH_LONG).show()
+                    parentFragmentManager.commit {
+                        replace(R.id.container, ChooseGenreFragment())
+                        setReorderingAllowed(true)
+                        addToBackStack(null)
+                    }
+                }
+                is State.Failed -> {
+                    Toast.makeText(requireContext(), it.throwable.toString(), Toast.LENGTH_LONG).show()
+                }
+            }
+        })
         return binding.root
     }
 

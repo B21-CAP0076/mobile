@@ -17,13 +17,9 @@ class HeaderInterceptor @Inject constructor() : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val requestBuilder = request.newBuilder()
-
-        if (sessionToken == "") {
-            throw RuntimeException("Session token should be defined for auth apis")
-        } else {
+        if (sessionToken.isNotEmpty()) {
             requestBuilder.addHeader("Authorization", sessionToken)
         }
-
         return chain.proceed(requestBuilder.build())
     }
 }

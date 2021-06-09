@@ -14,8 +14,8 @@
             android:id="@+id/action_navigation_home_to_commitmentRoomFragment"
             app:destination="@id/commitmentRoomFragment" />
         <action
-            android:id="@+id/action_navigation_home_to_matchMakingFragment"
-            app:destination="@id/matchMakingFragment" />
+            android:id="@+id/action_navigation_home_to_bookCommitmentFragment"
+            app:destination="@id/bookCommitmentFragment" />
     </fragment>
 
     <fragment
@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_matchMakingFragment_to_commitmentRoomFragment"
             app:destination="@id/commitmentRoomFragment" />
+        <argument
+            android:name="commitmentId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/commitmentRoomFragment"
@@ -42,7 +45,19 @@
         android:label="commitment_room_fragment"
         tools:layout="@layout/commitment_room_fragment">
         <argument
-            android:name="commitmentId"
+            android:name="commitmentId1"
             app:argType="string" />
+        <argument
+            android:name="commitmentId2"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookCommitmentFragment"
+        android:name="bangkit.capstone.ui.home.ui.choose_book.BookCommitmentFragment"
+        android:label="book_commitment_fragment"
+        tools:layout="@layout/book_commitment_fragment" >
+        <action
+            android:id="@+id/action_bookCommitmentFragment_to_matchMakingFragment"
+            app:destination="@id/matchMakingFragment" />
     </fragment>
 </navigation>

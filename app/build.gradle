@@ -38,10 +38,17 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    hilt {
+        enableExperimentalClasspathAggregation = true
+    }
+    lintOptions {
+        checkReleaseBuilds false
+    }
 }
 
 dependencies {
     implementation project(":core")
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     // ui
     implementation "androidx.core:core-ktx:$core_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"

@@ -7,7 +7,7 @@ import retrofit2.http.*
 
 
 interface UserApi {
-    @GET("/user/gauth/swap_token")
+    @POST("/user/gauth/swap_token")
     suspend fun gauthSwapToken(
         @Query("token") token: String
     ): Header
@@ -15,7 +15,7 @@ interface UserApi {
     @GET("/user/me")
     suspend fun me(): User
 
-    @PATCH("/user")
+    @PATCH("/user/update")
     suspend fun update(
         @Body userUpdate: UserUpdate
     ): User
@@ -24,6 +24,6 @@ interface UserApi {
     suspend fun delete(): User
 
     @PATCH("/user/predict")
-    suspend fun predictUserCluster()
+    suspend fun predictUserCluster() : User
 
 }

@@ -1,10 +1,12 @@
 package bangkit.capstone.core.di
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import bangkit.capstone.core.data.api.*
 import bangkit.capstone.core.util.EnumConverterFactory
 import bangkit.capstone.core.util.HeaderInterceptor
+import bangkit.capstone.core.util.SharedPreferenceHelper
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -12,8 +14,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 
@@ -62,16 +66,28 @@ object ApiModule {
         return retrofitBuilder(MatchApi::class.java, headerInterceptor)
     }
 
+    @Singleton
+    @Provides
+    fun provideSharedPreference(@ApplicationContext context: Context) : SharedPreferenceHelper {
+        return SharedPreferenceHelper(context.getSharedPreferences("bangkit-sp", MODE_PRIVATE))
+    }
+
 
     private fun <T> retrofitBuilder(apiClass: Class<T>, headerInterceptor: HeaderInterceptor): T {
-        val baseUrl = "http://habitbangkit.tech:8080/"
+        val baseUrl = "https://api.habitbangkit.tech/"
 
         val gson = GsonBuilder()
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
             .create()
 
+        val logging = HttpLoggingInterceptor().apply {
+            setLevel(HttpLoggingInterceptor.Level.BODY)
+        }
         val okHttpClient = OkHttpClient.Builder().apply {
-            addInterceptor(headerInterceptor)
+            addNetworkInterceptor(headerInterceptor)
+            addInterceptor(logging)
+                readTimeout(15, TimeUnit.SECONDS)
+                connectTimeout(15, TimeUnit.SECONDS)
         }
 
         return Retrofit.Builder()

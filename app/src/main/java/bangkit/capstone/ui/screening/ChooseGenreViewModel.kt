@@ -4,16 +4,27 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import bangkit.capstone.data.Genre
+import bangkit.capstone.core.data.model.Genre
+import bangkit.capstone.core.data.model.UserUpdate
+import bangkit.capstone.core.repository.GenreRepository
+import bangkit.capstone.core.repository.UserRepository
 import bangkit.capstone.dummy.ProvideDummy
+import bangkit.capstone.util.State
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
+import java.lang.Exception
+import javax.inject.Inject
 
-class ChooseGenreViewModel : ViewModel() {
+@HiltViewModel
+class ChooseGenreViewModel @Inject constructor(val genreRepository: GenreRepository, val userRepository: UserRepository): ViewModel() {
 
     private val _selectedGenre = mutableListOf<Genre>()
     private val selectedGenre = MutableLiveData<MutableList<Genre>>()
-    private val _genreList = MutableLiveData<List<Genre>>()
-    val genreList : LiveData<List<Genre>> = _genreList
+    private val _genreList = MutableLiveData<State<List<Genre>>>()
+    val genreList : LiveData<State<List<Genre>>> = _genreList
+    private val _status = MutableLiveData<State<String>>()
+    val status : LiveData<State<String>> = _status
 
     init {
         viewModelScope.launch {
@@ -35,11 +46,25 @@ class ChooseGenreViewModel : ViewModel() {
 
     fun getGenre() {
         viewModelScope.launch {
-            _genreList.value = ProvideDummy.genreList
+            try {
+                _genreList.value = State.loading()
+                val lst = genreRepository.getAll(null).single()
+                _genreList.value = State.success(lst)
+            } catch (e: Exception) {
+                _genreList.value = State.failed(e)
+            }
         }
     }
 
     fun submit() {
-
+        viewModelScope.launch {
+            try {
+                _status.value = State.loading()
+                userRepository.update(UserUpdate(genre_preferences = selectedGenre.value))
+                _status.value = State.success("Your data has been recorded")
+            } catch (e : Exception) {
+                _status.value = State.failed(e)
+            }
+        }
     }
 }

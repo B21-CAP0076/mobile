@@ -10,7 +10,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 
-@Singleton
 class BookSummaryPagingSource @Inject constructor(
     private val api: BookSummaryApi,
     private val readingCommitmendId: String

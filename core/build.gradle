@@ -39,7 +39,6 @@ android {
 
 dependencies {
     // api
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.moshi:moshi:$moshi_version"
 

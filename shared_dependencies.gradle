@@ -12,6 +12,10 @@ dependencies {
     // paging
     implementation "androidx.paging:paging-runtime:$paging_version"
 
+    // interceptor
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.1"
+
     // test
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$ax_junit_ext_version"

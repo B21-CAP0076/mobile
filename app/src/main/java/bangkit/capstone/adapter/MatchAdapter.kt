@@ -6,8 +6,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.paging.PagingData
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import bangkit.capstone.R
+import bangkit.capstone.core.data.model.Book
 import bangkit.capstone.core.data.model.Match
 import bangkit.capstone.core.data.model.ReadingCommitment
 import bangkit.capstone.databinding.MatchRvItemBinding
@@ -15,17 +19,29 @@ import bangkit.capstone.util.Formatter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
+import com.yuyakaido.android.cardstackview.CardStackListener
+import com.yuyakaido.android.cardstackview.Direction
 
 
 // TODO ini pake commitment
-class MatchAdapter : RecyclerView.Adapter<MatchAdapter.MatchViewHolder>() {
+class MatchAdapter : PagingDataAdapter<ReadingCommitment, MatchAdapter.MatchViewHolder>(diffCallback) {
 
-    private  var data: List<ReadingCommitment> = mutableListOf()
-    private lateinit var behaviour: MatchAdapterBehaviour
+    lateinit var behaviour: MatchAdapterBehaviour
+
+    companion object {
+        private val diffCallback = object : DiffUtil.ItemCallback<ReadingCommitment>() {
+            override fun areItemsTheSame(oldItem: ReadingCommitment, newItem: ReadingCommitment): Boolean =
+                oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: ReadingCommitment, newItem: ReadingCommitment): Boolean =
+                oldItem == newItem
+        }
+    }
 
     interface MatchAdapterBehaviour {
-        fun onClickListener(match: Match)
+        fun onClickListener(match: ReadingCommitment)
     }
+
 
     inner class MatchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val username = itemView.findViewById<TextView>(R.id.matchitemrv_name)
@@ -39,30 +55,23 @@ class MatchAdapter : RecyclerView.Adapter<MatchAdapter.MatchViewHolder>() {
         return MatchViewHolder(layout.root)
     }
 
+    fun getMatchData(position: Int) : ReadingCommitment {
+        return getItem(position)!!
+    }
+
     override fun onBindViewHolder(holder: MatchViewHolder, position: Int) {
-        var match = data[position]
-        Glide.with(holder.itemView.context)
-            .load(match.book.img)
-            .apply(
-                RequestOptions().override(93, 140)
-                    .transform(CenterCrop())
-            )
-            .into(holder.bookImage)
-        holder.username.text = match.owner.name
-        holder.bookTitle.text = match.book.title
-        holder.deadline.text = "Deadline on ${Formatter.dateToString(match.end_date)}"
-    }
-
-    override fun getItemCount(): Int {
-        return data.size
-    }
-
-    fun setBehaviour(b: MatchAdapterBehaviour) {
-        behaviour = b
-    }
-
-    fun setData(newData: List<ReadingCommitment>) {
-        data = newData
-        notifyDataSetChanged()
+        var match = getItem(position)
+        if (match != null) {
+            Glide.with(holder.itemView.context)
+                .load(match.book.img)
+                .apply(
+                    RequestOptions().override(93, 140)
+                        .transform(CenterCrop())
+                )
+                .into(holder.bookImage)
+            holder.username.text = match.owner.name
+            holder.bookTitle.text = match.book.title
+            holder.deadline.text = "Deadline on ${Formatter.dateToString(match.end_date)}"
+        }
     }
 }

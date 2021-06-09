@@ -9,11 +9,11 @@ object ProvideDummy {
 
     val hobbyList: List<Hobby> = listOf(
         Hobby(
-            id = 123,
+            id = "123",
             name = "Reading Books",
         ),
         Hobby(
-            id = 234,
+            id = "234",
             name = "Berenang",
         )
     )
@@ -158,20 +158,20 @@ object ProvideDummy {
 
     val readingCommitment1 = ReadingCommitment(
         owner = user1,
-        partner = user2,
         book = bookList[0],
         creation_date = Formatter.stringToDateTime("2021-06-02T14:36:11.334741"),
         end_date = Formatter.stringToDateTime("2021-06-02T14:36:11.334741"),
-        id = "asjfasfoiwe"
+        id = "asjfasfoiwe",
+        status = MatchStatus.MATCH
     )
 
     val readingCommitment2 = ReadingCommitment(
         owner = user1,
-        partner = user2,
         book = bookList[1],
         creation_date = Formatter.stringToDateTime("2021-06-02T14:36:11.334741"),
         end_date = Formatter.stringToDateTime("2021-06-02T14:36:11.334741"),
-        id = "asjfasfoiwe"
+        id = "asjfasfoiwe",
+        status = MatchStatus.MATCH
     )
 
     val commitmentList = listOf<ReadingCommitment>(

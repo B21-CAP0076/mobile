@@ -14,11 +14,8 @@ import javax.inject.Inject
 class HobbyRepository @Inject constructor(
     private val api: HobbyApi
 ) {
-    fun getAll(name: String? = null): Flow<PagingData<Hobby>> {
-        return Pager(
-            config = PagingConfig(pageSize = 50, enablePlaceholders = false),
-            pagingSourceFactory = { HobbyPagingSource(api, name)}
-        ).flow
+    suspend fun getAll(name: String? = null): Flow<List<Hobby>> {
+        return flowOf(api.getAll(page = 1, name= name))
     }
 
     suspend fun get(id: String) : Flow<Hobby> {

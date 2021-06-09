@@ -4,10 +4,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.commit
 import bangkit.capstone.R
+import bangkit.capstone.core.data.model.User
 import bangkit.capstone.databinding.ActivityPersonalDataEntryBinding
-import bangkit.capstone.util.SharedPreferenceHelper
+import bangkit.capstone.core.util.SharedPreferenceHelper
+import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class PersonalDataEntryActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var sharedPreferenceHelper: SharedPreferenceHelper
     private val TAG = "PersonalDataEntryActivi"
     private lateinit var binding: ActivityPersonalDataEntryBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,7 +23,8 @@ class PersonalDataEntryActivity : AppCompatActivity() {
         binding = ActivityPersonalDataEntryBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
-        val name = SharedPreferenceHelper.getString(this, getString(R.string.SHARED_PREFERENCE_KEY_NAME))
+        val name =
+            Gson().fromJson<User>(sharedPreferenceHelper.getString("user"), User::class.java).name
         binding.textView2.text = getString(R.string.hello, name)
         supportFragmentManager.commit {
             replace(R.id.container, BasicQuestionFragment())

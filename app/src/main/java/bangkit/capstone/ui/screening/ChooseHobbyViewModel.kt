@@ -5,16 +5,27 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import bangkit.capstone.data.Hobby
+import bangkit.capstone.core.data.choice.Education
+import bangkit.capstone.core.data.model.Hobby
+import bangkit.capstone.core.data.model.UserUpdate
+import bangkit.capstone.core.repository.HobbyRepository
+import bangkit.capstone.core.repository.UserRepository
 import bangkit.capstone.dummy.ProvideDummy
-import kotlinx.coroutines.flow.MutableStateFlow
+import bangkit.capstone.util.State
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
+import java.lang.Exception
+import javax.inject.Inject
 
-class ChooseHobbyViewModel : ViewModel() {
+@HiltViewModel
+class ChooseHobbyViewModel @Inject constructor(val userRepository: UserRepository, val hobbyRepository: HobbyRepository): ViewModel() {
     private val _selectedHobby = mutableListOf<Hobby>()
     private val selectedHobby = MutableLiveData<MutableList<Hobby>>()
-    private val _hobbyList = MutableLiveData<List<Hobby>>()
-    val hobbyList: LiveData<List<Hobby>> = _hobbyList
+    private val _hobbyList = MutableLiveData<State<List<Hobby>>>()
+    val hobbyList: LiveData<State<List<Hobby>>> = _hobbyList
+    private val _status = MutableLiveData<State<String>>()
+    val status : LiveData<State<String>> = _status
 
     init {
         viewModelScope.launch {
@@ -28,7 +39,13 @@ class ChooseHobbyViewModel : ViewModel() {
 
     fun getHobbyList() {
         viewModelScope.launch {
-            _hobbyList.value = ProvideDummy.hobbyList
+            try {
+                _hobbyList.value = State.loading()
+                val lst = hobbyRepository.getAll(null).single()
+                _hobbyList.value = State.success(lst)
+            } catch (e: Exception) {
+                _hobbyList.value = State.failed(e)
+            }
         }
     }
 
@@ -46,7 +63,13 @@ class ChooseHobbyViewModel : ViewModel() {
 
     fun submit() {
         viewModelScope.launch {
-            Log.d(TAG, "Submit: ${selectedHobby.value}")
+            try {
+                _status.value = State.loading()
+                userRepository.update(UserUpdate(hobbies = selectedHobby.value))
+                _status.value = State.success("Your data has been recorded")
+            } catch (e : Exception) {
+                _status.value = State.failed(e)
+            }
         }
     }
 }

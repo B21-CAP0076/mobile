@@ -14,11 +14,8 @@ import javax.inject.Inject
 class GenreRepository @Inject constructor(
     private val api: GenreApi
 ) {
-    fun getAll(name: String? = null): Flow<PagingData<Genre>> {
-        return Pager(
-            config = PagingConfig(pageSize = 50, enablePlaceholders = false),
-            pagingSourceFactory = { GenrePagingSource(api, name) }
-        ).flow
+    suspend fun getAll(name: String? = null): Flow<List<Genre>> {
+        return flowOf(api.getAll(page = 1, name=name))
     }
 
     suspend fun get(id: String): Flow<Genre> {

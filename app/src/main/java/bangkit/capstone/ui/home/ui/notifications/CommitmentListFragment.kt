@@ -14,13 +14,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import bangkit.capstone.R
 import bangkit.capstone.adapter.BookAdapter
 import bangkit.capstone.adapter.CommitmentAdapter
-import bangkit.capstone.core.data.model.Book
-import bangkit.capstone.core.data.model.Commitment
+import bangkit.capstone.core.data.model.Match
 import bangkit.capstone.core.data.model.ReadingCommitment
+import bangkit.capstone.core.data.model.User
+import bangkit.capstone.core.util.SharedPreferenceHelper
 import bangkit.capstone.databinding.FragmentCommitmentlistBinding
 import bangkit.capstone.dummy.ProvideDummy
 import bangkit.capstone.ui.home.ui.home.HomeFragmentDirections
+import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class CommitmentListFragment : Fragment() {
 
     private val commitmentListViewModel: CommitmentListViewModel by navGraphViewModels(R.id.mobile_navigation)
@@ -28,6 +33,9 @@ class CommitmentListFragment : Fragment() {
     private lateinit var adapter: CommitmentAdapter
 
     private val binding get() = _binding!!
+
+    @Inject
+    lateinit var preferenceHelper: SharedPreferenceHelper
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,13 +47,23 @@ class CommitmentListFragment : Fragment() {
 
         binding.fragmentcommitmentlistRv.layoutManager =
             LinearLayoutManager(requireContext())
-       adapter = CommitmentAdapter().apply {
-            setData(ProvideDummy.commitmentList)
+       adapter = CommitmentAdapter(preferenceHelper).apply {
             setBehaviour(object : CommitmentAdapter.CommitmentAdapterBehaviour {
-                override fun onCommitmentClicked(commitment: ReadingCommitment) {
+                override fun onCommitmentClicked(commitment: Match) {
+                    val user = Gson().fromJson<User>(preferenceHelper.getString("user"), User::class.java)
+                    var owner : ReadingCommitment ? = null
+                    var partner : ReadingCommitment ? = null
+                    if (user.id == commitment.commitment_1.owner.id) {
+                        owner = commitment.commitment_1
+                        partner = commitment.commitment_2
+                    } else {
+                        owner = commitment.commitment_2
+                        partner = commitment.commitment_1
+                    }
                     findNavController().navigate(
                         CommitmentListFragmentDirections.actionNavigationNotificationsToCommitmentRoomFragment(
-                            commitmentId = commitment.id!!
+                            commitmentId1 = owner.id,
+                            commitmentId2 = partner.id
                         )
                     )
                 }
