@@ -1,6 +1,5 @@
 package bangkit.capstone.ui.screening
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,23 +24,16 @@ class BasicQuestionViewModel @Inject constructor(val userRepository: UserReposit
         private const val TAG = "BasicQuestionViewModel"
     }
 
-    private val _job = MutableStateFlow("")
     private val _age = MutableStateFlow(0)
     private val _education = MutableStateFlow("")
     private val _status = MutableLiveData<State<String>>()
     val status : LiveData<State<String>> = _status
-    val isSubmitEnabled: Flow<Boolean> = combine(_job, _age, _education) { j, a, e ->
-        val isJobValid = Constants.JOB_LIST.contains(j)
+    val isSubmitEnabled: Flow<Boolean> = combine(_age, _education) { a, e ->
         val isAgeValid = a in 1..101
         val isEducationValid = Constants.EDUCATION_LIST.map {it -> it.name}.contains(e)
-        return@combine isJobValid and isAgeValid and isEducationValid
+        return@combine isAgeValid and isEducationValid
     }
 
-    fun setJob(text: String) {
-        viewModelScope.launch {
-            _job.value = text
-        }
-    }
 
     fun setAge(number: Int) {
         viewModelScope.launch {

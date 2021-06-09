@@ -40,13 +40,6 @@ class BasicQuestionFragment : Fragment() {
                 binding.fragmentbasicquestionButton.isEnabled = it
             }
         }
-        val adapter = ArrayAdapter(requireContext(), R.layout.list_job_item, Constants.JOB_LIST)
-        binding.personaldataentryJobautocomplete.setAdapter(adapter)
-        binding.personaldataentryJobautocomplete.onItemClickListener =
-            AdapterView.OnItemClickListener { parent, _, position, _ ->
-                val selectedItem = parent.getItemAtPosition(position).toString()
-                viewModel.setJob(selectedItem)
-            }
         binding.personaldataentryAge.doAfterTextChanged {
             viewModel.setAge(it.toString().toInt())
         }

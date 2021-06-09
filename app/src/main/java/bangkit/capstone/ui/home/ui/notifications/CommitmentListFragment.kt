@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -21,6 +23,7 @@ import bangkit.capstone.core.util.SharedPreferenceHelper
 import bangkit.capstone.databinding.FragmentCommitmentlistBinding
 import bangkit.capstone.dummy.ProvideDummy
 import bangkit.capstone.ui.home.ui.home.HomeFragmentDirections
+import bangkit.capstone.util.State
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -28,7 +31,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class CommitmentListFragment : Fragment() {
 
-    private val commitmentListViewModel: CommitmentListViewModel by navGraphViewModels(R.id.mobile_navigation)
+    private val commitmentListViewModel: CommitmentListViewModel by viewModels()
     private var _binding: FragmentCommitmentlistBinding? = null
     private lateinit var adapter: CommitmentAdapter
 
@@ -71,10 +74,20 @@ class CommitmentListFragment : Fragment() {
         }
         binding.fragmentcommitmentlistRv.adapter = adapter
         commitmentListViewModel.commitmentList.observe(viewLifecycleOwner, {
-            adapter.setData(it)
+            when (it) {
+                is State.Loading -> {
+                    Toast.makeText(requireContext(), "Loading...", Toast.LENGTH_LONG).show()
+                }
+                is State.Success -> {
+                    adapter.setData(it.data)
+                }
+                is State.Failed -> {
+                    Toast.makeText(requireContext(), it.throwable.toString(), Toast.LENGTH_LONG).show()
+                }
+            }
         })
         commitmentListViewModel.getCommitment()
-            return root
+        return root
     }
 
     override fun onDestroyView() {
